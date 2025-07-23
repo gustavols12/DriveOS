@@ -40,7 +40,7 @@ export function Header() {
         className={`
         fixed top-0 left-0 w-64 h-screen bg-[#1e2939] z-40 transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        sm:static sm:translate-x-0 sm:w-auto sm:h-auto sm:block sm:flex-1 sm:overflow-y-auto sm:py-2
+        sm:static sm:translate-x-0 sm:w-auto sm:h-auto sm:block sm:flex-1 sm:overflow-y-auto sm:py-2 py-15
       `}
       >
         <nav className="flex flex-col items-center justify-center text-gray-300 font-medium">
