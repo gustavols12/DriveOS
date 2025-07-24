@@ -11,7 +11,7 @@ export function FormProdutos() {
 
   function handleAddProduct(e: FormEvent) {
     e.preventDefault();
-    alert(produto);
+    alert(`${produto}, ${unMedida},${custo},${venda}`);
     setProduto('');
   }
   return (
@@ -59,7 +59,7 @@ export function FormProdutos() {
           />
         </div>
       </div>
-      <button className="w-full sm:w-24 mt-4 cursor-pointer p-2 bg-[#155dfc] font-medium text-xl border-0 text-white rounded-lg">
+      <button className="w-full sm:w-24 mt-4 cursor-pointer p-2 bg-[#155dfc] font-medium text-xl border-none text-white rounded-lg">
         Salvar
       </button>
     </form>
