@@ -2,11 +2,11 @@ import { BsCashCoin, BsTags, BsCart3, BsGraphUpArrow } from 'react-icons/bs';
 
 export default function Home() {
   return (
-    <section className="w-full flex flex-col items-center justify-center gap-2">
-      <h1 className="text-xl sm:text-3xl font-bold text-[#121212]">
+    <section className="w-full p-2 lg:p-8 flex flex-col items-center justify-center gap-2">
+      <h1 className="text-xl sm:text-3xl font-bold text-[#1e2939]">
         Dashboard - Caixa Diário
       </h1>
-      <section className="w-full grid grid-cols-1 lg:grid-cols-3 items-center justify-center gap-4 my-2 ">
+      <section className="w-full grid grid-cols-1 lg:grid-cols-3 items-center justify-center gap-4 my-2 lg:m-4 ">
         {/* caixa */}
         <div className="bg-white w-full h-28 flex items-center justify-between rounded-lg border-l-3 border-l-green-500">
           <div className="px-4 ">

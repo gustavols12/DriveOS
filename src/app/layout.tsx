@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className="bg-gray-100">
         <Container>
           <Header />
-          <main className="flex-1 p-8  overflow-y-auto"> {children}</main>
+          <main className="flex-1 overflow-y-auto"> {children}</main>
         </Container>
       </body>
     </html>
