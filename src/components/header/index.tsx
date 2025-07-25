@@ -80,6 +80,7 @@ export function Header() {
       `}
       >
         <nav className="flex flex-col items-center justify-center text-gray-300 font-medium m-2">
+          <p className="mb-2 font-medium">Olá {data?.user?.name}</p>
           <Link
             href="/"
             className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
