@@ -20,7 +20,7 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="w-full h-20 bg-[#1e2939] sm:w-60 sm:h-screen relative sm:flex sm:flex-col">
+    <header className="w-full h-20 bg-[#1e2939] sm:w-60 sm:h-screen relative sm:flex sm:flex-col  sm:rounded-r-3xl">
       <div className="my-2 flex items-center justify-between p-2 sm:justify-center">
         <button className="cursor-pointer sm:hidden z-50" onClick={toggleMenu}>
           {isOpen ? (

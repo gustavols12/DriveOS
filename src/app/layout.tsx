@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={poppins.className}>
-      <body className="bg-gray-100">
+      <body>
         <Container>
           <Header />
           <main className="flex-1 overflow-y-auto"> {children}</main>

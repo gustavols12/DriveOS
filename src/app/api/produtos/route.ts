@@ -10,17 +10,16 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, cost, price, um } = body;
+    const { name, price, un } = body;
 
-    if (!name || !cost || !price) {
+    if (!name || !un || !price) {
       return NextResponse.json({ error: 'informe corretamente os dados' });
     }
     const newProduct = await prisma.produto.create({
       data: {
         name: name,
-        cost: cost,
         price: price,
-        um: um,
+        un: un,
       },
     });
     return NextResponse.json(newProduct, { status: 201 });
