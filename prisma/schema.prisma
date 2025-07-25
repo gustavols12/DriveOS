@@ -13,6 +13,7 @@ model Produto{
   name String
   cost String
   price String
+  um String
    createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 

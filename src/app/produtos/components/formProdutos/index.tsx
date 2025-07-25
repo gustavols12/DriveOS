@@ -4,15 +4,36 @@ import { Input } from '@/components/input';
 import { FormEvent, useState } from 'react';
 
 export function FormProdutos() {
-  const [produto, setProduto] = useState('');
-  const [unMedida, setUnMedida] = useState('UN');
-  const [custo, setCusto] = useState('0.00');
-  const [venda, setVenda] = useState('0.00');
+  const [name, setName] = useState('');
+  const [um, setUm] = useState('');
+  const [cost, setCost] = useState('');
+  const [price, setPrice] = useState('');
 
-  function handleAddProduct(e: FormEvent) {
+  async function handleAddProduct(e: FormEvent) {
     e.preventDefault();
-    alert(`${produto}, ${unMedida},${custo},${venda}`);
-    setProduto('');
+
+    if (name === '' || cost === '' || um === '' || price === '') {
+      alert('preencha os dados');
+      return;
+    }
+
+    const res = await fetch('/api/produtos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, um, cost, price }),
+    });
+
+    if (res.ok) {
+      alert('Cadastrado com sucesso');
+      setName('');
+      setPrice('');
+      setUm('');
+      setCost('');
+      return;
+    }
+    alert('deu erro');
   }
   return (
     <form
@@ -25,8 +46,8 @@ export function FormProdutos() {
           <Input
             type="text"
             placeholder="Nome do produto..."
-            value={produto}
-            onChange={(e) => setProduto(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="w-full py-2">
@@ -36,31 +57,31 @@ export function FormProdutos() {
           <Input
             type="text"
             placeholder="UN"
-            value={unMedida}
-            onChange={(e) => setUnMedida(e.target.value)}
+            value={um}
+            onChange={(e) => setUm(e.target.value)}
           />
         </div>
         <div className="w-full py-2 ">
           <label className="text-[#121212] font-medium">Valor de custo*</label>
           <Input
             type="number"
-            placeholder="UN"
-            value={custo}
-            onChange={(e) => setCusto(e.target.value)}
+            placeholder="0"
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
           />
         </div>
         <div className="w-full py-2 ">
           <label className="text-[#121212] font-medium">Valor de venda*</label>
           <Input
             type="number"
-            placeholder="UN"
-            value={venda}
-            onChange={(e) => setVenda(e.target.value)}
+            placeholder="0"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
         </div>
       </div>
-      <button className="w-full sm:w-24 mt-4 cursor-pointer p-2 bg-[#155dfc] font-medium text-xl border-none text-white rounded-lg">
-        Salvar
+      <button className="w-full sm:w-40 mt-4 cursor-pointer p-2 bg-[#155dfc] font-medium text-xl border-none text-white rounded-lg">
+        Cadastrar
       </button>
     </form>
   );
