@@ -3,6 +3,8 @@
 import { Input } from '@/components/input';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
 
 export function FormProdutos() {
   const [name, setName] = useState('');
@@ -31,7 +33,6 @@ export function FormProdutos() {
       setName('');
       setPrice('');
       setUn('');
-      router.refresh();
       return;
     }
     alert('deu erro');
@@ -86,7 +87,7 @@ export function FormProdutos() {
       <div className="flex justify-start mt-6">
         <button
           type="submit"
-          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md"
+          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md cursor-pointer"
         >
           Cadastrar
         </button>
