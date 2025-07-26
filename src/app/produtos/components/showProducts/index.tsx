@@ -5,21 +5,19 @@ export async function ListProducts() {
   const res = await prisma.produto.findMany();
 
   return (
-    <section className="w-full my-6 px-4 rounded-lg shadow shadow-gray-300">
-      <div className="flex py-2 gap-2 items-center justify-start">
-        <h2 className="text-2xl font-bold text-gray-800">Meus Produtos</h2>
+    <section className="w-full my-6 px-4 rounded-lg ">
+      <div className="flex py-2  gap-2 items-center justify-start">
+        <h2 className="text-2xl font-bold text-gray-800 ">Meus Produtos</h2>
         <BsBoxSeam size={24} className="text-gray-800" />
       </div>
 
-      <div className="overflow-x-auto shadow-lg py-4">
-        <table className="min-w-full text-sm  border border-gray-300 rounded-lg mb-4 py-4">
+      <div className=" overflow-x-auto py-4">
+        <table className=" w-11/12  text-sm  border border-gray-300  mb-4 py-4">
           <thead className="bg-gray-100 text-gray-800">
             <tr className="font-semibold">
               <th className="py-4 px-6 border-b text-left">Nome</th>
-              <th className="py-4 px-6 border-b text-left">
-                Unidade de Medida
-              </th>
-              <th className="py-4 px-6 border-b text-left">Valor de Venda</th>
+              <th className="py-4 px-6 border-b text-left">Unidade</th>
+              <th className="py-4 px-6 border-b text-left">Valor</th>
               <th className="py-4 px-6 border-b text-center">Ações</th>
             </tr>
           </thead>

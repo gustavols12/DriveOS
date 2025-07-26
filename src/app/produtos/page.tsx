@@ -15,10 +15,8 @@ export default async function Produtos() {
         <section>
           <FormProdutos />
         </section>
-        <section className="my-8">
-          <div>
-            <ListProducts />
-          </div>
+        <section className="my-8 ">
+          <ListProducts />
         </section>
       </div>
     </section>
