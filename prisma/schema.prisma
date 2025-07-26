@@ -32,9 +32,11 @@ model Saller{
 model Customer{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
-  address String?
   phone String
-  email String?
+  email String
+  street String
+  neighborhood String
+  city String
   Services Service[]
   sales Sale[]
 }

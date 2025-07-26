@@ -9,6 +9,7 @@ import {
   BsTags,
   BsList,
   BsX,
+  BsFillPersonPlusFill,
 } from 'react-icons/bs';
 import { MdLogin } from 'react-icons/md';
 import { useState } from 'react';
@@ -91,6 +92,7 @@ export function Header() {
             <BsHouseDoor size={24} />
             Home
           </Link>
+
           <Link
             href="/produtos"
             className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
@@ -101,16 +103,18 @@ export function Header() {
             <BsTags size={24} />
             Produtos
           </Link>
+
           <Link
-            href="/relatorios"
+            href="/cliente"
             className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
-              pathname === '/relatorios' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
+              pathname === '/cliente' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
             }`}
             onClick={() => setIsOpen(false)}
           >
-            <BsClipboard2Data size={24} />
-            Relatórios
+            <BsFillPersonPlusFill size={24} />
+            Clientes
           </Link>
+
           <Link
             href="/vendas"
             className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
@@ -121,6 +125,29 @@ export function Header() {
             <BsCart3 size={24} />
             Vendas
           </Link>
+
+          <Link
+            href="/relatorios"
+            className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
+              pathname === '/relatorios' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
+            }`}
+            onClick={() => setIsOpen(false)}
+          >
+            <BsClipboard2Data size={24} />
+            Relatórios
+          </Link>
+
+          <Link
+            href="/vendedor"
+            className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
+              pathname === '/vendedor' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
+            }`}
+            onClick={() => setIsOpen(false)}
+          >
+            <BsFillPersonPlusFill size={24} />
+            Vendedor
+          </Link>
+
           <Link
             href="/os"
             className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${

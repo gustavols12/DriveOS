@@ -3,7 +3,6 @@ import { FaRegEdit } from 'react-icons/fa';
 import { BsBoxSeam } from 'react-icons/bs';
 export async function ListProducts() {
   const res = await prisma.produto.findMany();
-  console.log(res);
 
   return (
     <section className="w-full my-6 px-4 rounded-lg shadow shadow-gray-300">

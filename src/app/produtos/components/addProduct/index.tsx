@@ -48,10 +48,11 @@ export function FormProdutos() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="flex flex-col">
-          <label className="text-gray-700 font-semibold mb-1" htmlFor="name">
+          <label htmlFor="nome" className="text-gray-700 font-semibold mb-1">
             Nome*
           </label>
           <Input
+            id="nome"
             type="text"
             placeholder="Nome do produto..."
             value={name}
@@ -60,10 +61,11 @@ export function FormProdutos() {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-gray-700 font-semibold mb-1" htmlFor="un">
+          <label htmlFor="UN" className="text-gray-700 font-semibold mb-1">
             Unidade de medida*
           </label>
           <Input
+            id="UN"
             type="text"
             placeholder="UN"
             value={un}
@@ -72,10 +74,11 @@ export function FormProdutos() {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-gray-700 font-semibold mb-1" htmlFor="price">
+          <label htmlFor="venda" className="text-gray-700 font-semibold mb-1">
             Valor de venda*
           </label>
           <Input
+            id="venda"
             type="number"
             placeholder="0"
             value={price}
