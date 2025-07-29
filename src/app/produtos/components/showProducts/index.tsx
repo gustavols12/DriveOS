@@ -1,9 +1,69 @@
-import { prisma } from '@/lib/prisma';
+'use client';
 import { FaRegEdit } from 'react-icons/fa';
 import { BsBoxSeam } from 'react-icons/bs';
 import { FiTrash2 } from 'react-icons/fi';
-export async function ListProducts() {
-  const res = await prisma.produto.findMany();
+import { ProductsPros } from '../../@types';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+interface ListProps {
+  products: ProductsPros[];
+}
+export function ListProducts({ products }: ListProps) {
+  const router = useRouter();
+  const [editName, setEditName] = useState('');
+  const [editUn, setEditUn] = useState('');
+  const [editPrice, setEditPrice] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  function startEdit(product: ProductsPros) {
+    setEditingId(product.id);
+    setEditName(product.name);
+    setEditUn(product.un);
+    setEditPrice(product.price.toString());
+  }
+  function cancelEdit() {
+    setEditingId(null);
+    setEditName('');
+    setEditPrice('');
+  }
+
+  async function handleEdit(id: string) {
+    try {
+      const res = await fetch(`api/produtos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: editName,
+          un: editUn,
+          price: editPrice,
+        }),
+      });
+      if (!res.ok) {
+        throw new Error('erro ao atualizar produto');
+      }
+      alert('Produto atualizado com sucesso!');
+      setEditingId(null);
+      router.refresh();
+    } catch (error) {
+      alert('erro ao atualizar');
+    }
+  }
+
+  async function handleDelete(id: string) {
+    try {
+      const res = await fetch(`/api/produtos/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error('Erro ao deletar');
+      alert('Produto deletado com sucesso!');
+      router.refresh();
+    } catch (error) {
+      alert('erro ao deletar produto');
+    }
+  }
 
   return (
     <section className="w-full my-6 px-4 rounded-lg ">
@@ -17,39 +77,80 @@ export async function ListProducts() {
           <thead className="bg-gray-100 text-gray-800">
             <tr className="font-semibold">
               <th className="py-4 px-6 border-b text-left">Nome</th>
-              <th className="py-4 px-6 border-b hidden sm:table-cell text-left">
-                Unidade
-              </th>
+              <th className="py-4 px-6 border-b   text-left">Unidade</th>
               <th className="py-4 px-6 border-b text-left">Valor</th>
               <th className="py-4 px-6 border-b text-center">Ações</th>
             </tr>
           </thead>
           <tbody>
-            {res.map((product) => (
-              <tr
-                key={product.id}
-                className="hover:bg-blue-50 transition-colors duration-200"
-              >
-                <td className="py-4 px-6 border-b text-left">{product.name}</td>
-                <td className="py-4 hidden sm:table-cell px-6 border-b text-left">
-                  {product.un}
-                </td>
-                <td className="py-4 px-6 border-b text-left">
-                  R$ {Number(product.price).toFixed(2)}
-                </td>
-                <td className="py-4 px-6 border-b text-center">
-                  <button>
-                    <FaRegEdit
-                      className=" text-gray-600 hover:text-blue-600 transition"
-                      size={20}
+            {products.map((product) =>
+              editingId === product.id ? (
+                <tr key={product.id}>
+                  <td className="py-4 px-6 border-b text-left">
+                    <input
+                      className="w-full p-2 rounded border outline-none"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
                     />
-                  </button>
-                  <button>
-                    <FiTrash2 size={20} color="red" />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    <input
+                      className="w-full p-2 rounded border outline-none"
+                      value={editUn}
+                      onChange={(e) => setEditUn(e.target.value)}
+                    />
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    <input
+                      type="number"
+                      className="w-full p-2 rounded border outline-none"
+                      value={editPrice}
+                      onChange={(e) => setEditPrice(e.target.value)}
+                    />
+                  </td>
+                  <td className="py-4 px-6 border-b text-center">
+                    <button
+                      onClick={() => handleEdit(product.id)}
+                      className="text-green-600 font-bold mr-2"
+                    >
+                      Salvar
+                    </button>
+                    <button
+                      onClick={cancelEdit}
+                      className="text-gray-500 font-bold"
+                    >
+                      Cancelar
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                <tr
+                  key={product.id}
+                  className="hover:bg-blue-50 transition-colors duration-200"
+                >
+                  <td className="py-4 px-6 border-b text-left">
+                    {product.name}
+                  </td>
+                  <td className="py-4 px-6 border-b text-left ">
+                    {product.un}
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    R$ {Number(product.price).toFixed(2)}
+                  </td>
+                  <td className="py-4 px-6 border-b text-center">
+                    <button onClick={() => startEdit(product)}>
+                      <FaRegEdit
+                        className="text-gray-600 hover:text-blue-600"
+                        size={20}
+                      />
+                    </button>
+                    <button onClick={() => handleDelete(product.id)}>
+                      <FiTrash2 size={20} color="red" />
+                    </button>
+                  </td>
+                </tr>
+              ),
+            )}
           </tbody>
         </table>
       </div>

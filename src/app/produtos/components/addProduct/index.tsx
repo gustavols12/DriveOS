@@ -3,8 +3,6 @@
 import { Input } from '@/components/input';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
 
 export function FormProdutos() {
   const [name, setName] = useState('');
@@ -40,6 +38,7 @@ export function FormProdutos() {
   }
   return (
     <form
+      id="Cadastro produto"
       onSubmit={handleAddProduct}
       className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl p-6"
     >

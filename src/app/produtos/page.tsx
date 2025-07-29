@@ -3,9 +3,12 @@ import { FormProdutos } from './components/addProduct';
 import { ListProducts } from './components/showProducts';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 export default async function Produtos() {
   const session = await getServerSession(authOptions);
+  const res = await prisma.produto.findMany();
+
   if (!session || !session.user) {
     redirect('/');
   }
@@ -14,7 +17,7 @@ export default async function Produtos() {
       <div className="w-11/12 flex flex-col rounded-lg ">
         <FormProdutos />
         <section className="my-8 sm:my-2 ">
-          <ListProducts />
+          <ListProducts products={res} />
         </section>
       </div>
     </section>
