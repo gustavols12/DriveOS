@@ -138,17 +138,6 @@ export function Header() {
           </Link>
 
           <Link
-            href="/vendedor"
-            className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
-              pathname === '/vendedor' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            <BsFillPersonPlusFill size={24} />
-            Vendedor
-          </Link>
-
-          <Link
             href="/os"
             className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
               pathname === '/os' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'

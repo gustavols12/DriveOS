@@ -21,14 +21,7 @@ model Produto{
 
 }
 
-model Saller{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  Services Service[]
-  sales Sale[]
-}
+
 model Customer{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
@@ -44,8 +37,6 @@ model Customer{
 model Service{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
-  saller Saller @relation(fields: [sallerId], references: [id])
-  sallerId String @db.ObjectId
   customer Customer @relation(fields: [customerId],references: [id])
   customerId String @db.ObjectId
   product Produto @relation(fields: [productId],references: [id])
@@ -56,8 +47,6 @@ model Sale{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   product Produto @relation(fields: [productId],references: [id])
   productId String @db.ObjectId
-  saller Saller @relation(fields: [sallerId], references: [id])
-  sallerId String @db.ObjectId
   customer Customer @relation(fields: [customerId],references: [id])
   customerId String @db.ObjectId
 }

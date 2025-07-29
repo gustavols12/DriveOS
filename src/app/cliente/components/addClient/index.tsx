@@ -40,6 +40,7 @@ export function FormClient() {
       setStreet('');
       setNeighborhood('');
       setCity('');
+      router.refresh();
       return;
     }
     alert('deu erro');

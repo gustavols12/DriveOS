@@ -1,3 +1,4 @@
+import { Container } from '@/components/container';
 import { BsCashCoin, BsTags, BsCart3, BsGraphUpArrow } from 'react-icons/bs';
 
 export default function Home() {

@@ -33,6 +33,7 @@ export function FormProdutos() {
       setName('');
       setPrice('');
       setUn('');
+      router.refresh();
       return;
     }
     alert('deu erro');
