@@ -10,9 +10,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, phone, email, street, neighborhood, city } = body;
+    const { name, phone, email } = body;
 
-    if (!name || !phone || !email || !street || !neighborhood || !city) {
+    if (!name || !phone || !email) {
       return NextResponse.json({ error: 'informe corretamente os dados' });
     }
     const newClient = await prisma.customer.create({
@@ -20,9 +20,6 @@ export async function POST(req: NextRequest) {
         name,
         phone,
         email,
-        street,
-        neighborhood,
-        city,
       },
     });
     return NextResponse.json(newClient, { status: 201 });

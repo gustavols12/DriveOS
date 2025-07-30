@@ -1,9 +1,72 @@
-import { prisma } from '@/lib/prisma';
+'use client';
 import { FaRegEdit } from 'react-icons/fa';
 import { BsBoxSeam } from 'react-icons/bs';
 import { FiTrash2 } from 'react-icons/fi';
-export async function ListClient() {
-  const res = await prisma.customer.findMany();
+import { ClientProps } from '../../@types';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+interface listClientProps {
+  clients: ClientProps[];
+}
+
+export function ListClient({ clients }: listClientProps) {
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editPhone, setEditPhone] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+
+  const router = useRouter();
+
+  function startEdit(client: ClientProps) {
+    setEditingId(client.id);
+    setEditName(client.name);
+    setEditPhone(client.phone);
+    setEditEmail(client.email);
+  }
+  function cancelEdit() {
+    setEditName('');
+    setEditPhone('');
+    setEditEmail('');
+    setEditingId(null);
+  }
+  async function handleEdit(id: string) {
+    try {
+      const res = await fetch(`/api/cliente/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: editName,
+          phone: editPhone,
+          email: editEmail,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('erro ao atualizar cliente');
+      }
+      alert('Cadastro atualizado');
+      setEditingId(null);
+      router.refresh();
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function handleDelete(id: string) {
+    try {
+      const res = await fetch(`api/cliente/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error('Erro ao deletar');
+      alert('Cliente deletado com sucesso!');
+      router.refresh();
+    } catch (error) {
+      alert(error);
+    }
+  }
 
   return (
     <section className="w-full my-6 px-4 rounded-lg ">
@@ -25,29 +88,76 @@ export async function ListClient() {
             </tr>
           </thead>
           <tbody>
-            {res.map((client) => (
-              <tr
-                key={client.id}
-                className="hover:bg-blue-50 transition-colors duration-200"
-              >
-                <td className="py-4 px-6 border-b text-left">{client.name}</td>
-                <td className="py-4 px-6 border-b text-left">{client.phone}</td>
-                <td className="hidden lg:table-cell py-4 px-6 border-b text-left">
-                  {client.email}
-                </td>
-                <td className="py-4 px-6 border-b text-left">
-                  <button>
-                    <FaRegEdit
-                      className=" text-gray-600 hover:text-blue-600 transition"
-                      size={20}
+            {clients.map((client) =>
+              editingId === client.id ? (
+                <tr key={client.id}>
+                  <td className="py-4 px-6 border-b text-left">
+                    <input
+                      className="w-full p-2 rounded border outline-none"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
                     />
-                  </button>
-                  <button>
-                    <FiTrash2 size={20} color="red" />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    <input
+                      type="text"
+                      className="w-full p-2 rounded border outline-none"
+                      value={editPhone}
+                      onChange={(e) => setEditPhone(e.target.value)}
+                    />
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    <input
+                      type="email"
+                      className="w-full p-2 rounded border outline-none"
+                      value={editEmail}
+                      onChange={(e) => setEditEmail(e.target.value)}
+                    />
+                  </td>
+
+                  <td className="py-4 px-6 border-b text-center">
+                    <button
+                      onClick={() => handleEdit(client.id)}
+                      className="text-green-600 font-bold mr-2"
+                    >
+                      Salvar
+                    </button>
+                    <button
+                      onClick={cancelEdit}
+                      className="text-gray-500 font-bold"
+                    >
+                      Cancelar
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                <tr
+                  key={client.id}
+                  className="hover:bg-blue-50 transition-colors duration-200"
+                >
+                  <td className="py-4 px-6 border-b text-left">
+                    {client.name}
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    {client.phone}
+                  </td>
+                  <td className="hidden lg:table-cell py-4 px-6 border-b text-left">
+                    {client.email}
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    <button onClick={() => startEdit(client)}>
+                      <FaRegEdit
+                        className=" text-gray-600 hover:text-blue-600 transition"
+                        size={20}
+                      />
+                    </button>
+                    <button onClick={() => handleDelete(client.id)}>
+                      <FiTrash2 size={20} color="red" />
+                    </button>
+                  </td>
+                </tr>
+              ),
+            )}
           </tbody>
         </table>
       </div>

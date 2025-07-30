@@ -3,23 +3,18 @@
 import { Input } from '@/components/input';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
 
 export function FormClient() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [street, setStreet] = useState('');
-  const [neighborhood, setNeighborhood] = useState('');
-  const [city, setCity] = useState('');
 
   const router = useRouter();
 
-  async function handleAddProduct(e: FormEvent) {
+  async function handleClient(e: FormEvent) {
     e.preventDefault();
 
-    if (!name || !phone || !email || !street || !neighborhood || !city) {
+    if (!name || !phone || !email) {
       alert('preencha os dados');
       return;
     }
@@ -29,7 +24,7 @@ export function FormClient() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, email, phone, street, neighborhood, city }),
+      body: JSON.stringify({ name, email, phone }),
     });
 
     if (res.ok) {
@@ -37,9 +32,6 @@ export function FormClient() {
       setName('');
       setPhone('');
       setEmail('');
-      setStreet('');
-      setNeighborhood('');
-      setCity('');
       router.refresh();
       return;
     }
@@ -47,7 +39,7 @@ export function FormClient() {
   }
   return (
     <form
-      onSubmit={handleAddProduct}
+      onSubmit={handleClient}
       className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl p-6"
     >
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
@@ -75,7 +67,7 @@ export function FormClient() {
           <Input
             id="email"
             type="email"
-            placeholder="gustavo@teste.com"
+            placeholder="seuEmail@teste.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -88,46 +80,9 @@ export function FormClient() {
           <Input
             id="phone"
             type="text"
-            placeholder="41 995566353"
+            placeholder="41 9999-9999"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="rua" className="text-gray-700 font-semibold mb-1">
-            Rua*
-          </label>
-          <Input
-            id="rua"
-            type="text"
-            placeholder="Rua são paulo"
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="bairro" className="text-gray-700 font-semibold mb-1">
-            Bairro*
-          </label>
-          <Input
-            id="bairro"
-            type="text"
-            placeholder="Jardim boa vista"
-            value={neighborhood}
-            onChange={(e) => setNeighborhood(e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label htmlFor="cidade" className="text-gray-700 font-semibold mb-1">
-            Cidade*
-          </label>
-          <Input
-            id="cidade"
-            type="text"
-            placeholder="Curitiba-PR"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
           />
         </div>
       </div>

@@ -30,7 +30,7 @@ export function ListProducts({ products }: ListProps) {
 
   async function handleEdit(id: string) {
     try {
-      const res = await fetch(`api/produtos/${id}`, {
+      const res = await fetch(`/api/produtos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
