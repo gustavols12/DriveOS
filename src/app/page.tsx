@@ -1,7 +1,27 @@
-import { Container } from '@/components/container';
 import { BsCashCoin, BsTags, BsCart3, BsGraphUpArrow } from 'react-icons/bs';
+import { prisma } from '@/lib/prisma';
 
-export default function Home() {
+export default async function Home() {
+  const vendas = await prisma.sale.findMany();
+  const produtos = await prisma.produto.findMany();
+  const start = new Date();
+
+  start.setHours(0, 0, 0, 0);
+
+  const end = new Date();
+  end.setHours(23, 59, 59, 999);
+  const dia = new Date();
+  const diaFormatado = new Intl.DateTimeFormat('pt-BR').format(dia);
+
+  const vendasDiarias = await prisma.sale.findMany({
+    where: {
+      createdAt: {
+        gte: start,
+        lte: end,
+      },
+    },
+  });
+  const totalCaixa = vendasDiarias.reduce((acc, venda) => acc + venda.total, 0);
   return (
     <section className="w-full p-2 lg:p-8 flex flex-col items-center justify-center gap-2 ">
       <h1 className="text-xl sm:text-3xl font-bold text-[#1e2939]">
@@ -12,7 +32,7 @@ export default function Home() {
         <div className="bg-white w-full h-28 flex items-center justify-between rounded-lg border-l-3 border-l-green-500 shadow-md">
           <div className="px-4 ">
             <p>Caixa diário</p>
-            <strong>R$ 1.500</strong>
+            <strong>R$ {totalCaixa.toFixed(2)}</strong>
           </div>
           <div className="mx-4 bg-green-200 rounded-full px-4 py-4 flex items-center justify-center">
             <BsCashCoin size={33} color="green" />
@@ -22,7 +42,7 @@ export default function Home() {
         <div className="bg-white w-full h-28 flex items-center justify-between rounded-lg border-l-3 border-l-blue-500 shadow-md">
           <div className="px-4 ">
             <p>Vendas</p>
-            <strong>0</strong>
+            <strong>{vendas.length}</strong>
           </div>
           <div className="mx-4 bg-blue-200 rounded-full px-4 py-4 flex items-center justify-center">
             <BsCart3 size={33} color="blue" />
@@ -32,7 +52,7 @@ export default function Home() {
         <div className="bg-white w-full h-28 flex items-center justify-between rounded-lg border-l-3 border-l-purple-500 shadow-md">
           <div className="px-4 ">
             <p>Produtos</p>
-            <strong>0</strong>
+            <strong>{produtos.length}</strong>
           </div>
           <div className="mx-4 bg-purple-200 rounded-full px-4 py-4 flex items-center justify-center">
             <BsTags size={33} color="purple" />
@@ -44,16 +64,16 @@ export default function Home() {
           <BsGraphUpArrow size={30} />
           <h3 className="text-xl">Resumo do dia</h3>
         </div>
-        <p className="font-medium text-[#121212]">
-          <strong className="text-[#4a5565]">Data: </strong>
-          20/07/2025
+        <p className="font-medium text-gray-800">
+          <strong className="text-[#4a5565]">Data:</strong> {diaFormatado}
         </p>
-        <p className="font-medium text-[#121212]">
+        <p className="font-medium text-gray-800">
           <strong className="text-[#4a5565]">Total em Caixa: </strong>
-          R$ 0.00
+          R$ {totalCaixa.toFixed(2)}
         </p>
-        <p className="font-medium text-[#121212]">
-          <strong className="text-[#4a5565]">Vendas: </strong>0
+        <p className="font-medium text-gray-800">
+          <strong className="text-[#4a5565]">Vendas: </strong>{' '}
+          {vendasDiarias.length}
         </p>
       </div>
     </section>
