@@ -4,6 +4,7 @@ import { FormEvent, useState, useEffect } from 'react';
 import { ProductsPros } from '@/app/produtos/@types';
 import { MdRestartAlt } from 'react-icons/md';
 import { ClientProps } from '@/app/cliente/@types';
+import { useRouter } from 'next/navigation';
 
 interface itemCartProps {
   cartItem: ProductsPros[];
@@ -11,6 +12,9 @@ interface itemCartProps {
 }
 
 export function Cart({ cartItem, clients }: itemCartProps) {
+  const router = useRouter();
+
+  // Produto
   const [selectedProductId, setSelectedProductId] = useState('');
   const [unitPrice, setUnitPrice] = useState(0);
   const [qtd, setQtd] = useState(1);
@@ -24,6 +28,9 @@ export function Cart({ cartItem, clients }: itemCartProps) {
     const precoUnitario = parseFloat(item.price);
     return acc + quantidade * precoUnitario;
   }, 0);
+
+  // cliente
+  const [clientId, setClientId] = useState('');
 
   useEffect(() => {
     const product = cartItem.find((item) => item.id === selectedProductId);
@@ -84,6 +91,52 @@ export function Cart({ cartItem, clients }: itemCartProps) {
   function handleDeleteItem(id: string) {
     const updatedCart = cart.filter((item) => item.id !== id);
     setCart(updatedCart);
+    setSelectedProductId('');
+    setQtd(1);
+    setUnitPrice(0);
+    setTotal(0);
+    setPayment('');
+  }
+
+  async function handleRegisterSale() {
+    if (!payment) {
+      alert('Selecione uma forma de pagamento');
+      return;
+    }
+    if (!clientId) {
+      alert('Selecione um cliente');
+      return;
+    }
+    try {
+      const items = cart.map((item) => ({
+        productId: item.id,
+        quantity: parseInt(item.un),
+        price: parseFloat(item.price),
+      }));
+      const res = await fetch('/api/venda', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerId: clientId,
+          paymentMethod: payment,
+          items,
+        }),
+      });
+
+      if (res.ok) {
+        alert('Venda efetuada');
+        setCart([]);
+        setClientId('');
+        setPayment('');
+        setInstallments(1);
+        setSelectedProductId('');
+        router.refresh();
+      }
+    } catch (error) {
+      alert('erro ao gravar venda');
+    }
   }
 
   return (
@@ -91,7 +144,7 @@ export function Cart({ cartItem, clients }: itemCartProps) {
       {/* inicia venda  */}
       <div className="w-full sm:px-8 flex-1 flex-col items-center sm:items-start mb-8">
         {/* cliente */}
-        <div className="w-full sm:w-sm  flex flex-col items-center sm:items-start sm:mb-4">
+        <div className="w-full sm:w-sm px-4 flex flex-col items-center sm:items-start mb-4">
           <label
             htmlFor="cliente"
             className="self-start font-semibold text-gray-800"
@@ -101,6 +154,8 @@ export function Cart({ cartItem, clients }: itemCartProps) {
           <select
             name="cliente"
             id="cliente"
+            onChange={(e) => setClientId(e.target.value)}
+            value={clientId}
             className="w-full  rounded-lg border border-gray-300 p-2 outline-blue-500"
           >
             <option value="">selecione um cliente</option>
@@ -243,6 +298,7 @@ export function Cart({ cartItem, clients }: itemCartProps) {
             <div className="w-full ">
               <select
                 className="w-full py-4 outline-none border-1 border-gray-300 rounded"
+                required
                 onChange={(e) => {
                   const optionPayment = e.target.value;
                   setPayment(optionPayment);
@@ -286,6 +342,7 @@ export function Cart({ cartItem, clients }: itemCartProps) {
             </div>
             <button
               type="submit"
+              onClick={handleRegisterSale}
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 mb-4 rounded-lg transition duration-300 flex items-center justify-center gap-2"
             >
               <FiShoppingCart size={24} color="white" />

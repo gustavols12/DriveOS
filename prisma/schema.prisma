@@ -17,7 +17,7 @@ model Produto{
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   Service Service[]
-  sale Sale[]
+  sale SaleItem[]
 
 }
 
@@ -40,13 +40,26 @@ model Service{
   productId String @db.ObjectId
 }
 
-model Sale{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  product Produto @relation(fields: [productId],references: [id])
-  productId String @db.ObjectId
-  customer Customer @relation(fields: [customerId],references: [id])
-  customerId String @db.ObjectId
+model Sale {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  customerId    String        @db.ObjectId
+  items         SaleItem[]  
+  paymentMethod String
+  total         Float
+  createdAt     DateTime      @default(now())
 }
+model SaleItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sale      Sale     @relation(fields: [saleId], references: [id])
+  saleId    String   @db.ObjectId
+  product   Produto  @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
+  quantity  Int
+  price     Float
+  subtotal  Float
+}
+
 
 // nextAuth pede essas models
 model User {
