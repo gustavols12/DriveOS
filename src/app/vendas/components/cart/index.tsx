@@ -3,12 +3,14 @@ import { FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 import { FormEvent, useState, useEffect } from 'react';
 import { ProductsPros } from '@/app/produtos/@types';
 import { MdRestartAlt } from 'react-icons/md';
+import { ClientProps } from '@/app/cliente/@types';
 
 interface itemCartProps {
   cartItem: ProductsPros[];
+  clients: ClientProps[];
 }
 
-export function Cart({ cartItem }: itemCartProps) {
+export function Cart({ cartItem, clients }: itemCartProps) {
   const [selectedProductId, setSelectedProductId] = useState('');
   const [unitPrice, setUnitPrice] = useState(0);
   const [qtd, setQtd] = useState(1);
@@ -86,8 +88,31 @@ export function Cart({ cartItem }: itemCartProps) {
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2">
-      {/* adicionar  */}
+      {/* inicia venda  */}
       <div className="w-full sm:px-8 flex-1 flex-col items-center sm:items-start mb-8">
+        {/* cliente */}
+        <div className="w-full sm:w-sm  flex flex-col items-center sm:items-start sm:mb-4">
+          <label
+            htmlFor="cliente"
+            className="self-start font-semibold text-gray-800"
+          >
+            Cliente:
+          </label>
+          <select
+            name="cliente"
+            id="cliente"
+            className="w-full  rounded-lg border border-gray-300 p-2 outline-blue-500"
+          >
+            <option value="">selecione um cliente</option>
+            {clients.map((client) => (
+              <option key={client.id} value={client.id}>
+                {client.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* produto */}
         <form
           onSubmit={handleAddItemCart}
           id="FormVenda"
@@ -179,7 +204,8 @@ export function Cart({ cartItem }: itemCartProps) {
           </button>
         </form>
       </div>
-      {/* finalizar */}
+
+      {/* finaliza venda */}
       <div className="w-full sm:px-8 flex-1 flex-col items-center sm:items-start">
         {cart.length > 0 ? (
           <section className=" w-full flex flex-col rounded-xl gap-4 bg-white p-4 shadow-md max-w-2xl">
