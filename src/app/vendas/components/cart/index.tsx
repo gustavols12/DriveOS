@@ -14,25 +14,14 @@ export function Cart({ cartItem }: itemCartProps) {
   const [qtd, setQtd] = useState(1);
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState<ProductsPros[]>([]);
+  const [payment, setPayment] = useState('');
+  const [installments, setInstallments] = useState(1);
 
   const totalCarrinho = cart.reduce((acc, item) => {
     const quantidade = parseFloat(item.un);
     const precoUnitario = parseFloat(item.price);
     return acc + quantidade * precoUnitario;
   }, 0);
-
-  function handleAddItemCart(e: FormEvent) {
-    e.preventDefault();
-    setCart((prevCart) => [
-      ...prevCart,
-      {
-        name: selectedProductId,
-        price: total.toString(),
-        un: qtd.toString(),
-        id: selectedProductId,
-      },
-    ]);
-  }
 
   useEffect(() => {
     const product = cartItem.find((item) => item.id === selectedProductId);
@@ -45,12 +34,56 @@ export function Cart({ cartItem }: itemCartProps) {
     }
   }, [selectedProductId, qtd]);
 
+  // funções
+
+  function handleAddItemCart(e: FormEvent) {
+    e.preventDefault();
+
+    setCart((prevCart) => {
+      const existingItemIndex = prevCart.findIndex(
+        (item) => item.id === selectedProductId,
+      );
+
+      if (existingItemIndex !== -1) {
+        const updatedCart = [...prevCart];
+        const existingItem = updatedCart[existingItemIndex];
+
+        const newQtd = parseInt(existingItem.un) + qtd;
+        const newTotal = parseFloat(existingItem.price) + total;
+
+        updatedCart[existingItemIndex] = {
+          ...existingItem,
+          un: newQtd.toString(),
+          price: newTotal.toFixed(2),
+        };
+
+        return updatedCart;
+      }
+
+      return [
+        ...prevCart,
+        {
+          name: selectedProductId,
+          price: total.toFixed(2),
+          un: qtd.toString(),
+          id: selectedProductId,
+        },
+      ];
+    });
+  }
+
   function handleRestartCart() {
     setSelectedProductId('');
     setQtd(1);
     setUnitPrice(0);
     setTotal(0);
   }
+
+  function handleDeleteItem(id: string) {
+    const updatedCart = cart.filter((item) => item.id !== id);
+    setCart(updatedCart);
+  }
+
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2">
       {/* adicionar  */}
@@ -174,27 +207,67 @@ export function Cart({ cartItem }: itemCartProps) {
                     Qtde: {item.un}
                   </span>
                 </div>
-                <FiTrash2 size={28} color="red" />
+                <button onClick={() => handleDeleteItem(item.id)}>
+                  <FiTrash2 size={28} color="red" />
+                </button>
               </div>
             ))}
+
+            {/* payment */}
+            <div className="w-full ">
+              <select
+                className="w-full py-4 outline-none border-1 border-gray-300 rounded"
+                onChange={(e) => {
+                  const optionPayment = e.target.value;
+                  setPayment(optionPayment);
+                }}
+              >
+                <option value="">Selecione uma forma de pagamento</option>
+                <option value="Débito">Débito</option>
+                <option value="Crédito">Crédito</option>
+                <option value="Pix">Pix</option>
+              </select>
+              {payment === 'Crédito' && (
+                <div className="w-full mt-2 ">
+                  <select
+                    className="w-full py-4 outline-none border-1 border-gray-300 rounded"
+                    onChange={(e) => {
+                      const parcelas = e.target.value;
+                      setInstallments(Number(parcelas));
+                    }}
+                  >
+                    <option value="1">1x sem juros</option>
+                    <option value="2">2x sem juros</option>
+                    <option value="3">3x sem juros</option>
+                  </select>
+                </div>
+              )}
+            </div>
             <div className="flex items-center justify-between px-4 py-2">
               <span className="text-gray-800 font-semibold">
                 Total da venda:
               </span>
-              <strong className="text-green-500">
-                R$ {totalCarrinho.toFixed(2)}
-              </strong>
+              <div className="flex flex-col gap-2 items-center justify-center">
+                <strong className="text-green-500 font-bold text-2xl ">
+                  R$ {totalCarrinho.toFixed(2)}
+                </strong>
+                {payment === 'Crédito' && (
+                  <span className="text-sm self-end font-semibold text-gray-800">
+                    Em {installments}x no cartão
+                  </span>
+                )}
+              </div>
             </div>
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 mb-4 rounded-lg transition duration-300 flex items-center justify-center gap-2"
             >
               <FiShoppingCart size={24} color="white" />
               Finalizar carrinho
             </button>
           </section>
         ) : (
-          <div className="flex gap-2 pb-8">
+          <div className="flex gap-2 pb-8 px-4">
             <FiShoppingCart size={24} className="text-gray-800" />
             <h2 className="text-gray-800 mb-2 font-semibold">
               ops seu carrinho está vazio...

@@ -1,5 +1,5 @@
 import { FiShoppingCart } from 'react-icons/fi';
-import { Cart } from './components';
+import { Cart } from './components/cart';
 import { prisma } from '@/lib/prisma';
 
 export default async function Vendas() {
