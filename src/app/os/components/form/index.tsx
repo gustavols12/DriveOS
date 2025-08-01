@@ -4,7 +4,6 @@ import { ClientProps } from '@/app/cliente/@types';
 import { ProductsPros } from '@/app/produtos/@types';
 import { Input } from '@/components/input';
 import { FormEvent, useEffect, useState } from 'react';
-import { DiVim } from 'react-icons/di';
 import { FiTrash2 } from 'react-icons/fi';
 
 interface OsProps {

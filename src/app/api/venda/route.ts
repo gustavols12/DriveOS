@@ -1,16 +1,17 @@
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: Request) {
-  const vendas = await prisma.sale.findMany();
-  return NextResponse.json(vendas);
-}
-
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
+  const session = await getServerSession(authOptions);
 
-    const { items, customerId, paymentMethod } = body;
+  if (!session || !session.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  try {
+    const { items, customerId, paymentMethod } = await req.json();
+
     const total = items.reduce(
       (acc: number, item: any) => acc + item.price * item.quantity,
       0,
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(newSale);
+    return NextResponse.json({ message: 'sale created successfully' });
   } catch (error) {
     console.error('Erro ao salvar venda:', error);
     return NextResponse.json(
