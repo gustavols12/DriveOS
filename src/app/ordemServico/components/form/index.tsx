@@ -5,6 +5,8 @@ import { ProductsPros } from '@/app/produtos/@types';
 import { Input } from '@/components/input';
 import { FormEvent, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
+import { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
 
 interface OsProps {
   products: ProductsPros[];
@@ -31,6 +33,13 @@ export function OsForm({ products, customers }: OsProps) {
 
   // serviço
   const [service, setService] = useState('');
+
+  const componentRef = useRef<HTMLFormElement>(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef: componentRef,
+    documentTitle: 'Ordem-de-servico',
+  });
 
   useEffect(() => {
     const clienteFiltrado = customers.find(
@@ -110,6 +119,7 @@ export function OsForm({ products, customers }: OsProps) {
 
   return (
     <form
+      ref={componentRef}
       onSubmit={handleSaveServiceOrder}
       className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl mt-8 p-6"
     >
@@ -262,12 +272,19 @@ export function OsForm({ products, customers }: OsProps) {
           className="w-full rounded-md  lg:h-40 text-black outline-none border border-gray-300 px-3 py-2 box-border"
         />
       </div>
-      <div className="flex justify-start mt-6">
+      <div className="flex justify-start mt-6 gap-2">
         <button
           type="submit"
           className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md cursor-pointer"
         >
           Salvar
+        </button>
+        <button
+          onClick={handlePrint}
+          type="button"
+          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md cursor-pointer"
+        >
+          Baixar
         </button>
       </div>
     </form>
