@@ -20,9 +20,6 @@ export function FormProdutos() {
 
     const res = await fetch('/api/produtos', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({ name, un, price }),
     });
 

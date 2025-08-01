@@ -32,9 +32,6 @@ export function ListProducts({ products }: ListProps) {
     try {
       const res = await fetch(`/api/produtos/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           name: editName,
           un: editUn,

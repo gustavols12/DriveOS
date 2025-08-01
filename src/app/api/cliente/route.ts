@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { error } from 'console';
-
-export async function GET() {
-  const clientes = await prisma.customer.findMany();
-  return NextResponse.json(clientes);
-}
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { name, phone, email } = body;
+    const { name, phone, email } = await req.json();
 
     if (!name || !phone || !email) {
       return NextResponse.json({ error: 'informe corretamente os dados' });
