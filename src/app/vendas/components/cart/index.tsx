@@ -115,9 +115,7 @@ export function Cart({ cartItem, clients }: itemCartProps) {
       }));
       const res = await fetch('/api/venda', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+
         body: JSON.stringify({
           customerId: clientId,
           paymentMethod: payment,

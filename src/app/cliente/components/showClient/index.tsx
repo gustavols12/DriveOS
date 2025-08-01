@@ -34,9 +34,7 @@ export function ListClient({ clients }: listClientProps) {
     try {
       const res = await fetch(`/api/cliente/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+
         body: JSON.stringify({
           name: editName,
           phone: editPhone,
@@ -69,14 +67,14 @@ export function ListClient({ clients }: listClientProps) {
   }
 
   return (
-    <section className="w-full my-6 px-4 rounded-lg ">
+    <section className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl p-6">
       <div className="flex py-2  gap-2 items-center justify-start">
         <h2 className="text-2xl font-bold text-gray-800 ">Meus Clientes</h2>
         <BsBoxSeam size={24} className="text-gray-800" />
       </div>
 
       <div className="overflow-x-auto">
-        <table className=" w-11/12  text-sm  border border-gray-300  mb-4 py-4">
+        <table className=" w-full  text-sm  border border-gray-300  mb-4 py-4">
           <thead className="bg-gray-100 text-gray-800">
             <tr className="font-semibold">
               <th className="py-4 px-6 border-b text-left">Nome</th>

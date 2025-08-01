@@ -18,6 +18,8 @@ model Produto{
   updatedAt DateTime? @updatedAt
   Service Service[]
   sale SaleItem[]
+  userId String? @db.ObjectId
+  user User? @relation(fields: [userId], references: [id])
 
 }
 
@@ -29,6 +31,8 @@ model Customer{
   email String
   Services Service[]
   sales Sale[]
+  userId String? @db.ObjectId
+  user User? @relation(fields: [userId], references: [id])
 }
 
 model Service{
@@ -38,6 +42,8 @@ model Service{
   customerId String @db.ObjectId
   product Produto @relation(fields: [productId],references: [id])
   productId String @db.ObjectId
+  userId String? @db.ObjectId
+  user User? @relation(fields: [userId], references: [id])
 }
 
 model Sale {
@@ -48,6 +54,8 @@ model Sale {
   paymentMethod String
   total         Float
   createdAt     DateTime      @default(now())
+  userId String? @db.ObjectId
+  user User? @relation(fields: [userId], references: [id])
 }
 model SaleItem {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -72,6 +80,11 @@ model User {
   sessions      Session[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  Service Service[]
+  sale Sale[]
+  customer Customer[]
+  produto Produto[]
 }
  
 model Account {

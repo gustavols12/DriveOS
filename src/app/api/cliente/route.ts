@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
         name,
         phone,
         email,
+        userId: session.user.id,
       },
     });
     return NextResponse.json({ message: 'Customer created successfully' });

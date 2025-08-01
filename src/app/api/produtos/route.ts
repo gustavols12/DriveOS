@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
         name: name,
         price: price,
         un: un,
+        userId: session.user.id,
       },
     });
     return NextResponse.json({ message: 'Product created successfully' });

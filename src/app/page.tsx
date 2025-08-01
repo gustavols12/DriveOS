@@ -1,8 +1,9 @@
 import { BsCashCoin, BsTags, BsCart3, BsGraphUpArrow } from 'react-icons/bs';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export default async function Home() {
-  const vendas = await prisma.sale.findMany();
   const produtos = await prisma.produto.findMany();
   const start = new Date();
 
@@ -12,9 +13,11 @@ export default async function Home() {
   end.setHours(23, 59, 59, 999);
   const dia = new Date();
   const diaFormatado = new Intl.DateTimeFormat('pt-BR').format(dia);
+  const session = await getServerSession(authOptions);
 
   const vendasDiarias = await prisma.sale.findMany({
     where: {
+      userId: session?.user.id,
       createdAt: {
         gte: start,
         lte: end,
@@ -42,7 +45,7 @@ export default async function Home() {
         <div className="bg-white w-full h-28 flex items-center justify-between rounded-lg border-l-3 border-l-blue-500 shadow-md">
           <div className="px-4 ">
             <p>Vendas</p>
-            <strong>{vendas.length}</strong>
+            <strong>{vendasDiarias.length}</strong>
           </div>
           <div className="mx-4 bg-blue-200 rounded-full px-4 py-4 flex items-center justify-center">
             <BsCart3 size={33} color="blue" />

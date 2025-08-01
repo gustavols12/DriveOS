@@ -1,4 +1,4 @@
-import { InputProps } from '@/types/input.type';
+import { InputProps } from '@/@types/input.type';
 
 export function Input({ id, type, placeholder, value, onChange }: InputProps) {
   return (

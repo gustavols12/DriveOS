@@ -11,7 +11,7 @@ export function FormClient() {
 
   const router = useRouter();
 
-  async function handleClient(e: FormEvent) {
+  async function handleAddClient(e: FormEvent) {
     e.preventDefault();
 
     if (!name || !phone || !email) {
@@ -21,9 +21,6 @@ export function FormClient() {
 
     const res = await fetch('/api/cliente', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({ name, email, phone }),
     });
 
@@ -39,7 +36,7 @@ export function FormClient() {
   }
   return (
     <form
-      onSubmit={handleClient}
+      onSubmit={handleAddClient}
       className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl p-6"
     >
       <h2 className="text-2xl font-bold text-gray-800 mb-6">

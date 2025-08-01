@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
     );
     const newSale = await prisma.sale.create({
       data: {
+        userId: session.user.id,
         customerId,
         paymentMethod,
         total,
