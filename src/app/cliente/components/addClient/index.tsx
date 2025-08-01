@@ -37,7 +37,7 @@ export function FormClient() {
   return (
     <form
       onSubmit={handleAddClient}
-      className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl p-6"
+      className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl p-6 mb-4"
     >
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
         + Cadastrar Cliente

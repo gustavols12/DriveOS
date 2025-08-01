@@ -13,8 +13,8 @@ interface OsProps {
 
 export function OsForm({ products, customers }: OsProps) {
   // cliente
-  const [clientId, setClientId] = useState('');
-  const [selectedClient, setSelectedClient] = useState<
+  const [customerId, setCustomerId] = useState('');
+  const [selectedCustomer, setSelectedCustomer] = useState<
     ClientProps | undefined
   >();
   const [phone, setPhone] = useState('');
@@ -29,12 +29,15 @@ export function OsForm({ products, customers }: OsProps) {
   const [price, setPrice] = useState('');
   const [listItems, setListItems] = useState<ProductsPros[]>([]);
 
+  // serviço
+  const [service, setService] = useState('');
+
   useEffect(() => {
     const clienteFiltrado = customers.find(
-      (customer) => customer.id === clientId,
+      (customer) => customer.id === customerId,
     );
 
-    setSelectedClient(clienteFiltrado);
+    setSelectedCustomer(clienteFiltrado);
     if (clienteFiltrado) {
       setPhone(clienteFiltrado.phone);
       setEmail(clienteFiltrado.email);
@@ -43,7 +46,7 @@ export function OsForm({ products, customers }: OsProps) {
       setEmail('');
       setPrice('');
     }
-  }, [clientId]);
+  }, [customerId]);
 
   useEffect(() => {
     const produtoFiltrado = products.find(
@@ -78,8 +81,38 @@ export function OsForm({ products, customers }: OsProps) {
     setListItems(updateList);
   }
 
+  async function handleSaveServiceOrder(e: FormEvent) {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/os', {
+        method: 'POST',
+        body: JSON.stringify({
+          listItems,
+          customerId,
+          service,
+        }),
+      });
+      if (res.ok) {
+        alert('Ordem de serviço salva');
+        setCustomerId('');
+        setEmail('');
+        setListItems([]);
+        setPhone('');
+        setPrice('');
+        setProductId('');
+        setQtde(0);
+        setService('');
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
-    <form className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl mt-8 p-6">
+    <form
+      onSubmit={handleSaveServiceOrder}
+      className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl mt-8 p-6"
+    >
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
         + Ordem de Serviço
       </h2>
@@ -92,7 +125,7 @@ export function OsForm({ products, customers }: OsProps) {
             name="client"
             id="client"
             className="w-full py-2 px-2 outline-none border-1 border-gray-300 rounded"
-            onChange={(e) => setClientId(e.target.value)}
+            onChange={(e) => setCustomerId(e.target.value)}
           >
             <option value="">Selecione o cliente</option>
             {customers.map((customer) => (
@@ -208,7 +241,7 @@ export function OsForm({ products, customers }: OsProps) {
 
         <button
           onClick={handleAddItemInList}
-          type="submit"
+          type="button"
           className="w-full sm:w-40 sm:h-14 bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md"
         >
           Adicionar
@@ -223,6 +256,8 @@ export function OsForm({ products, customers }: OsProps) {
         <textarea
           name="serviço"
           id="serviço"
+          value={service}
+          onChange={(e) => setService(e.target.value)}
           placeholder="Descrição do serviço"
           className="w-full rounded-md  lg:h-40 text-black outline-none border border-gray-300 px-3 py-2 box-border"
         />

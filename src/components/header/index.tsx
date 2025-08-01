@@ -138,7 +138,7 @@ export function Header() {
           </Link>
 
           <Link
-            href="/os"
+            href="/ordemServico"
             className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
               pathname === '/os' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
             }`}

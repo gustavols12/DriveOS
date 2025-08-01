@@ -16,10 +16,11 @@ model Produto{
   price String
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
-  Service Service[]
   sale SaleItem[]
   userId String? @db.ObjectId
   user User? @relation(fields: [userId], references: [id])
+  service Service? @relation(fields: [serviceId], references: [id])
+  serviceId String? @db.ObjectId
 
 }
 
@@ -40,10 +41,9 @@ model Service{
   name String
   customer Customer @relation(fields: [customerId],references: [id])
   customerId String @db.ObjectId
-  product Produto @relation(fields: [productId],references: [id])
-  productId String @db.ObjectId
   userId String? @db.ObjectId
   user User? @relation(fields: [userId], references: [id])
+  product Produto[]
 }
 
 model Sale {
