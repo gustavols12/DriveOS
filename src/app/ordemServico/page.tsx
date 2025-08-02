@@ -20,7 +20,13 @@ export default async function Os() {
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      <OsForm customers={customers} products={products} />
+      {session ? (
+        <OsForm customers={customers} products={products} />
+      ) : (
+        <h1 className="text-3xl text-center font-bold text-gray-800 mt-10">
+          Efetue o login para gerar uma ordem de serviço
+        </h1>
+      )}
     </div>
   );
 }

@@ -34,13 +34,6 @@ export function OsForm({ products, customers }: OsProps) {
   // serviço
   const [service, setService] = useState('');
 
-  const componentRef = useRef<HTMLFormElement>(null);
-
-  const handlePrint = useReactToPrint({
-    contentRef: componentRef,
-    documentTitle: 'Ordem-de-servico',
-  });
-
   useEffect(() => {
     const clienteFiltrado = customers.find(
       (customer) => customer.id === customerId,
@@ -116,6 +109,13 @@ export function OsForm({ products, customers }: OsProps) {
       alert(error);
     }
   }
+  // pdf
+  const componentRef = useRef<HTMLFormElement>(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef: componentRef,
+    documentTitle: 'Ordem-de-servico',
+  });
 
   return (
     <form
@@ -252,7 +252,7 @@ export function OsForm({ products, customers }: OsProps) {
         <button
           onClick={handleAddItemInList}
           type="button"
-          className="w-full sm:w-40 sm:h-14 bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md"
+          className="w-full sm:w-40 bg-blue-600 border-none hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-2 rounded-lg"
         >
           Adicionar
         </button>
@@ -269,7 +269,7 @@ export function OsForm({ products, customers }: OsProps) {
           value={service}
           onChange={(e) => setService(e.target.value)}
           placeholder="Descrição do serviço"
-          className="w-full rounded-md  lg:h-40 text-black outline-none border border-gray-300 px-3 py-2 box-border"
+          className="w-full rounded-md  lg:h-40 text-black outline-none border border-gray-300 px-3 py-2 box-border resize-none"
         />
       </div>
       <div className="flex justify-start mt-6 gap-2">

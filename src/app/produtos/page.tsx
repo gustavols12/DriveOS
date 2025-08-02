@@ -17,7 +17,7 @@ export default async function Produtos() {
       <div className="w-11/12 flex flex-col rounded-lg mt-2 ">
         <FormProdutos />
         <section className="my-8 sm:my-2 ">
-          {res.length > 0 ? (
+          {res.length > 0 && session?.user ? (
             <ListProducts products={res} />
           ) : (
             <div className="mt-5 text-center">

@@ -17,7 +17,7 @@ export default async function Customer() {
       <div className="w-11/12 flex flex-col rounded-lg gap-4">
         <FormClient />
 
-        {res.length > 0 ? (
+        {res.length > 0 && session?.user ? (
           <ListClient clients={res} />
         ) : (
           <div className="mt-5 text-center">

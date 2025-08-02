@@ -19,20 +19,24 @@ export function FormClient() {
       return;
     }
 
-    const res = await fetch('/api/cliente', {
-      method: 'POST',
-      body: JSON.stringify({ name, email, phone }),
-    });
+    try {
+      const res = await fetch('/api/cliente', {
+        method: 'POST',
+        body: JSON.stringify({ name, email, phone }),
+      });
 
-    if (res.ok) {
+      if (!res.ok) {
+        alert('Erro ao cadastrar cliente');
+        return;
+      }
       alert('Cadastrado com sucesso');
       setName('');
       setPhone('');
       setEmail('');
       router.refresh();
-      return;
+    } catch (error) {
+      alert('Erro: ' + error);
     }
-    alert('deu erro');
   }
   return (
     <form

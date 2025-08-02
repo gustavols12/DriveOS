@@ -56,7 +56,7 @@ export default async function Home() {
         <div className="bg-white w-full h-28 flex items-center justify-between rounded-lg border-l-3 border-l-purple-500 shadow-md">
           <div className="px-4 ">
             <p>Produtos</p>
-            <strong>{produtos.length}</strong>
+            <strong>{session ? produtos.length : 0}</strong>
           </div>
           <div className="mx-4 bg-purple-200 rounded-full px-4 py-4 flex items-center justify-center">
             <BsTags size={33} color="purple" />

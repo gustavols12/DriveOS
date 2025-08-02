@@ -19,10 +19,17 @@ export default async function Vendas() {
   return (
     <div className="w-full flex flex-col ">
       <h1 className="pt-8 mb-4 text-2xl font-bold text-center lg:text-left lg:px-8 text-gray-800">
-        Iniciar Venda
+        Iniciar Venda*
       </h1>
-
-      <Cart cartItem={products} clients={clients} />
+      {session ? (
+        <Cart cartItem={products} clients={clients} />
+      ) : (
+        <>
+          <h1 className="text-3xl font-bold text-center mt-4 text-gray-800">
+            Realize o login para efetuar uma venda
+          </h1>
+        </>
+      )}
     </div>
   );
 }

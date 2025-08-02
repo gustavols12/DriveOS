@@ -18,20 +18,24 @@ export function FormProdutos() {
       return;
     }
 
-    const res = await fetch('/api/produtos', {
-      method: 'POST',
-      body: JSON.stringify({ name, un, price }),
-    });
+    try {
+      const res = await fetch('/api/produtos', {
+        method: 'POST',
+        body: JSON.stringify({ name, un, price }),
+      });
 
-    if (res.ok) {
-      alert('Cadastrado com sucesso');
+      if (!res.ok) {
+        alert('Erro ao efetuar cadastro');
+        return;
+      }
+      alert('cadastro efetuado com sucesso');
       setName('');
       setPrice('');
       setUn('');
       router.refresh();
-      return;
+    } catch (error) {
+      alert('Erro ao efetuar cadastro');
     }
-    alert('deu erro');
   }
   return (
     <form
