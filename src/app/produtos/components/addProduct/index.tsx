@@ -3,6 +3,7 @@
 import { Input } from '@/components/input';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export function FormProdutos() {
   const [name, setName] = useState('');
@@ -14,7 +15,7 @@ export function FormProdutos() {
     e.preventDefault();
 
     if (name === '' || un === '' || price === '') {
-      alert('preencha os dados');
+      toast.error('preencha os dados');
       return;
     }
 
@@ -25,16 +26,16 @@ export function FormProdutos() {
       });
 
       if (!res.ok) {
-        alert('Erro ao efetuar cadastro');
+        toast.error('Erro ao efetuar cadastro');
         return;
       }
-      alert('cadastro efetuado com sucesso');
+      toast.success('cadastro efetuado com sucesso');
       setName('');
       setPrice('');
       setUn('');
       router.refresh();
     } catch (error) {
-      alert('Erro ao efetuar cadastro');
+      toast.error('Erro ao efetuar cadastro');
     }
   }
   return (

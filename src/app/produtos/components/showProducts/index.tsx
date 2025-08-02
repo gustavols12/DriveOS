@@ -5,6 +5,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { ProductsPros } from '../../@types';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface ListProps {
   products: ProductsPros[];
@@ -55,10 +56,10 @@ export function ListProducts({ products }: ListProps) {
         method: 'DELETE',
       });
       if (!res.ok) throw new Error('Erro ao deletar');
-      alert('Produto deletado com sucesso!');
+      toast.success('Produto deletado com sucesso!');
       router.refresh();
     } catch (error) {
-      alert('erro ao deletar produto');
+      toast.error('erro ao deletar produto');
     }
   }
 

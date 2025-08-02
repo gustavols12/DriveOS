@@ -5,6 +5,7 @@ import { ProductsPros } from '@/app/produtos/@types';
 import { MdRestartAlt } from 'react-icons/md';
 import { ClientProps } from '@/app/cliente/@types';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface itemCartProps {
   cartItem: ProductsPros[];
@@ -100,11 +101,11 @@ export function Cart({ cartItem, clients }: itemCartProps) {
 
   async function handleRegisterSale() {
     if (!payment) {
-      alert('Selecione uma forma de pagamento');
+      toast.error('Selecione uma forma de pagamento');
       return;
     }
     if (!clientId) {
-      alert('Selecione um cliente');
+      toast.error('Selecione um cliente');
       return;
     }
     try {
@@ -123,17 +124,19 @@ export function Cart({ cartItem, clients }: itemCartProps) {
         }),
       });
 
-      if (res.ok) {
-        alert('Venda efetuada');
-        setCart([]);
-        setClientId('');
-        setPayment('');
-        setInstallments(1);
-        setSelectedProductId('');
-        router.refresh();
+      if (!res.ok) {
+        toast.error('Erro ao finalizar venda');
+        return;
       }
+      toast.success('Venda efetuada');
+      setCart([]);
+      setClientId('');
+      setPayment('');
+      setInstallments(1);
+      setSelectedProductId('');
+      router.refresh();
     } catch (error) {
-      alert('erro ao gravar venda');
+      toast.error('erro ao salvar venda');
     }
   }
 

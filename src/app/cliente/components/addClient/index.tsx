@@ -3,6 +3,7 @@
 import { Input } from '@/components/input';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export function FormClient() {
   const [name, setName] = useState('');
@@ -15,7 +16,7 @@ export function FormClient() {
     e.preventDefault();
 
     if (!name || !phone || !email) {
-      alert('preencha os dados');
+      toast.error('preencha os dados do cliente');
       return;
     }
 
@@ -26,16 +27,16 @@ export function FormClient() {
       });
 
       if (!res.ok) {
-        alert('Erro ao cadastrar cliente');
+        toast.error('Erro ao cadastrar cliente');
         return;
       }
-      alert('Cadastrado com sucesso');
+      toast.success('Cadastrado com sucesso');
       setName('');
       setPhone('');
       setEmail('');
       router.refresh();
     } catch (error) {
-      alert('Erro: ' + error);
+      toast.error('Erro ao cadastrar cliente');
     }
   }
   return (

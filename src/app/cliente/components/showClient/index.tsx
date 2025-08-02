@@ -5,6 +5,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { ClientProps } from '../../@types';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface listClientProps {
   clients: ClientProps[];
@@ -45,11 +46,11 @@ export function ListClient({ clients }: listClientProps) {
       if (!res.ok) {
         throw new Error('erro ao atualizar cliente');
       }
-      alert('Cadastro atualizado');
+      toast.success('Cadastro atualizado');
       setEditingId(null);
       router.refresh();
     } catch (error) {
-      alert(error);
+      toast.error('Não foi possivel atualizar');
     }
   }
 
@@ -59,10 +60,10 @@ export function ListClient({ clients }: listClientProps) {
         method: 'DELETE',
       });
       if (!res.ok) throw new Error('Erro ao deletar');
-      alert('Cliente deletado com sucesso!');
+      toast.success('Cliente deletado com sucesso!');
       router.refresh();
     } catch (error) {
-      alert(error);
+      toast.error('erro ao deletar cliente');
     }
   }
 

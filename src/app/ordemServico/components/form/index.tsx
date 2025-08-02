@@ -7,6 +7,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
+import toast from 'react-hot-toast';
 
 interface OsProps {
   products: ProductsPros[];
@@ -94,19 +95,22 @@ export function OsForm({ products, customers }: OsProps) {
           service,
         }),
       });
-      if (res.ok) {
-        alert('Ordem de serviço salva');
-        setCustomerId('');
-        setEmail('');
-        setListItems([]);
-        setPhone('');
-        setPrice('');
-        setProductId('');
-        setQtde(0);
-        setService('');
+      if (!res.ok) {
+        toast.error('error salvar ordem de serviço');
+        return;
       }
+
+      toast.success('Ordem de serviço salva');
+      setCustomerId('');
+      setEmail('');
+      setListItems([]);
+      setPhone('');
+      setPrice('');
+      setProductId('');
+      setQtde(0);
+      setService('');
     } catch (error) {
-      alert(error);
+      toast.error('error salvar ordem de serviço');
     }
   }
   // pdf

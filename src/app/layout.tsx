@@ -4,6 +4,7 @@ import { Container } from '@/components/container';
 import { Header } from '@/components/header';
 import { Poppins } from 'next/font/google';
 import AuthProvider from '@/providers/auth';
+import { Toaster } from 'react-hot-toast';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -27,6 +28,7 @@ export default function RootLayout({
         <AuthProvider>
           <Container>
             <Header />
+            <Toaster position="top-center" reverseOrder={false} />
             <main className="flex-1 overflow-y-auto"> {children}</main>
           </Container>
         </AuthProvider>
