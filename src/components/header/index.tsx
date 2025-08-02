@@ -15,13 +15,19 @@ import { MdLogin } from 'react-icons/md';
 import { useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { FiLoader } from 'react-icons/fi';
-import { FaRegUser } from 'react-icons/fa';
+import { FaArrowDown, FaArrowLeft, FaRegUser } from 'react-icons/fa';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   const pathname = usePathname();
   const { status, data } = useSession();
 
@@ -141,16 +147,42 @@ export function Header() {
             Relatórios
           </Link>
 
-          <Link
-            href="/ordemServico"
-            className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
-              pathname === '/os' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            <BsWrenchAdjustable size={24} />
-            Ordem de serviços
-          </Link>
+          <div className="w-full flex flex-col">
+            <Link
+              href="/ordemServico"
+              className={`w-full flex items-center justify-between p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
+                pathname === '/ordemServico'
+                  ? 'bg-[#155dfc]'
+                  : 'hover:bg-gray-700'
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              <div className="flex gap-2 items-center justify-start flex-1">
+                <BsWrenchAdjustable size={24} />
+                serviço
+              </div>
+              <button onClick={toggleDropdown}>
+                {dropdownOpen ? (
+                  <FaArrowLeft size={18} />
+                ) : (
+                  <FaArrowDown size={18} />
+                )}
+              </button>
+            </Link>
+            {dropdownOpen && (
+              <ul className="pl-10 pt-1 pb-2 text-sm bg-gray-800 rounded-b-lg">
+                <li>
+                  <Link
+                    href="/ordemServico/detalhes"
+                    className=" block py-1 px-2 rounded hover:text-white hover:font-bold hover:transition-all duration-300"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Detalhes
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
         </nav>
       </div>
     </header>
