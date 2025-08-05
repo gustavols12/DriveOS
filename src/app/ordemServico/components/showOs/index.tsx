@@ -2,17 +2,24 @@
 import { BsTrash2 } from 'react-icons/bs';
 import { ServiceOrderProps } from '../../@types';
 import toast from 'react-hot-toast';
-import { useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
 import { jsPDF } from 'jspdf';
 import { DownloadOSButton } from '../downloadButton';
+import { redirect, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface OrderProps {
   order: ServiceOrderProps[];
+  session: boolean;
 }
 
-export function MyOrders({ order }: OrderProps) {
+export function MyOrders({ order, session }: OrderProps) {
+  useEffect(() => {
+    if (!session) {
+      redirect('/');
+    }
+  }, []);
   const doc = new jsPDF();
+  const router = useRouter();
 
   // funções
   async function handleDeleteOs(id: string) {
@@ -25,6 +32,7 @@ export function MyOrders({ order }: OrderProps) {
         return;
       }
       toast.success('O.S deletada com sucesso');
+      router.refresh();
     } catch (error) {
       toast.error('Erro ao deletar OS');
     }

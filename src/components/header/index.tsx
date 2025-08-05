@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   BsCart3,
-  BsClipboard2Data,
   BsHouseDoor,
   BsWrenchAdjustable,
   BsTags,
@@ -134,17 +133,6 @@ export function Header() {
           >
             <BsCart3 size={24} />
             Vendas
-          </Link>
-
-          <Link
-            href="/relatorios"
-            className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
-              pathname === '/relatorios' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            <BsClipboard2Data size={24} />
-            Relatórios
           </Link>
 
           <div className="w-full flex flex-col">

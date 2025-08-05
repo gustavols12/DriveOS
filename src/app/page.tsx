@@ -36,7 +36,7 @@ export default async function Home() {
         <div className="bg-white w-full h-28 flex items-center justify-between rounded-lg border-l-3 border-l-green-500 shadow-md">
           <div className="px-4 ">
             <p>Caixa diário</p>
-            <strong>R$ {totalCaixa.toFixed(2)}</strong>
+            <strong>R$ {session ? totalCaixa.toFixed(2) : 0}</strong>
           </div>
           <div className="mx-4 bg-green-200 rounded-full px-4 py-4 flex items-center justify-center">
             <BsCashCoin size={33} color="green" />
@@ -46,7 +46,7 @@ export default async function Home() {
         <div className="bg-white w-full h-28 flex items-center justify-between rounded-lg border-l-3 border-l-blue-500 shadow-md">
           <div className="px-4 ">
             <p>Vendas</p>
-            <strong>{vendasDiarias.length}</strong>
+            <strong>{session ? vendasDiarias.length : 0}</strong>
           </div>
           <div className="mx-4 bg-blue-200 rounded-full px-4 py-4 flex items-center justify-center">
             <BsCart3 size={33} color="blue" />
@@ -73,11 +73,11 @@ export default async function Home() {
         </p>
         <p className="font-medium text-gray-800">
           <strong className="text-[#4a5565]">Total em Caixa: </strong>
-          R$ {totalCaixa.toFixed(2)}
+          R$ {session ? totalCaixa.toFixed(2) : 0}
         </p>
         <p className="font-medium text-gray-800">
           <strong className="text-[#4a5565]">Vendas: </strong>{' '}
-          {vendasDiarias.length}
+          {session ? vendasDiarias.length : 0}
         </p>
       </div>
     </section>

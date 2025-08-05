@@ -134,6 +134,8 @@ export function Cart({ cartItem, clients }: itemCartProps) {
       setPayment('');
       setInstallments(1);
       setSelectedProductId('');
+      setTotal(0);
+      setQtd(1);
       router.refresh();
     } catch (error) {
       toast.error('erro ao salvar venda');

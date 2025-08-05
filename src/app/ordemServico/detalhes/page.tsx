@@ -27,7 +27,7 @@ export default async function DetalhesOs() {
       </div>
       <section>
         {response.length > 0 ? (
-          <MyOrders order={response} />
+          <MyOrders order={response} session={session ? true : false} />
         ) : (
           <h2 className="text-gray-800 font-semibold mt-10 text-center">
             Nenhuma ordem de serviço encontrada...
