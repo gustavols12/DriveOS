@@ -8,6 +8,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import toast from 'react-hot-toast';
+import { DownloadOSButton } from '../downloadButton';
 
 interface OsProps {
   products: ProductsPros[];
@@ -138,9 +139,21 @@ export function OsForm({ products, customers }: OsProps) {
       onSubmit={handleSaveServiceOrder}
       className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl mt-8 p-6"
     >
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        + Ordem de Serviço
-      </h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          + Ordem de Serviço
+        </h2>
+        {selectedCustomer && service && listItems && (
+          <DownloadOSButton
+            customer={selectedCustomer?.name}
+            service={service}
+            products={listItems.map((item) => ({
+              name: item.name,
+              price: item.price,
+            }))}
+          />
+        )}
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="flex flex-col">
           <label className="text-gray-700 font-semibold mb-1" htmlFor="client">
@@ -287,21 +300,12 @@ export function OsForm({ products, customers }: OsProps) {
           className="w-full rounded-md  lg:h-40 text-black outline-none border border-gray-300 px-3 py-2 box-border resize-none"
         />
       </div>
-      <div className="flex justify-start mt-6 gap-2">
-        <button
-          type="submit"
-          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md cursor-pointer"
-        >
-          Salvar
-        </button>
-        <button
-          onClick={handlePrint}
-          type="button"
-          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md cursor-pointer"
-        >
-          Baixar
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="w-full mt-4 sm:w-auto bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 px-6 rounded-lg shadow-md cursor-pointer"
+      >
+        Salvar
+      </button>
     </form>
   );
 }

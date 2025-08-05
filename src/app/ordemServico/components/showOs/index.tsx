@@ -4,12 +4,17 @@ import { ServiceOrderProps } from '../../@types';
 import toast from 'react-hot-toast';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
+import { jsPDF } from 'jspdf';
+import { DownloadOSButton } from '../downloadButton';
 
 interface OrderProps {
   order: ServiceOrderProps[];
 }
 
 export function MyOrders({ order }: OrderProps) {
+  const doc = new jsPDF();
+
+  // funções
   async function handleDeleteOs(id: string) {
     try {
       const response = await fetch(`/api/os/${id}`, {
@@ -25,17 +30,8 @@ export function MyOrders({ order }: OrderProps) {
     }
   }
 
-  const componentRef = useRef<HTMLElement>(null);
-
-  const handlePrint = useReactToPrint({
-    contentRef: componentRef,
-    documentTitle: 'Ordem-de-servico',
-  });
   return (
-    <section
-      className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 mb-6 px-2 py-2"
-      ref={componentRef}
-    >
+    <section className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 mb-6 px-2 py-2">
       {order.map((item) => (
         <div
           key={item.id}
@@ -71,12 +67,14 @@ export function MyOrders({ order }: OrderProps) {
           </div>
 
           <div className="mt-4 flex justify-between items-center">
-            <button
-              onClick={handlePrint}
-              className="p-2 rounded-lg hover:bg-blue-400 transition bg-blue-500 text-white"
-            >
-              Baixar
-            </button>
+            <DownloadOSButton
+              customer={item.customer.name}
+              service={item.name}
+              products={item.product.map((p) => ({
+                name: p.name,
+                price: p.price,
+              }))}
+            />
             <button
               onClick={() => handleDeleteOs(item.id)}
               className="p-2 rounded-full hover:bg-red-100 transition"
