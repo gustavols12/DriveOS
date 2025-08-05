@@ -64,7 +64,7 @@ export function ListProducts({ products }: ListProps) {
   }
 
   return (
-    <section className="w-full my-6 px-4 rounded-lg ">
+    <section className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl p-6 mt-10">
       <div className="flex py-2  gap-2 items-center justify-start">
         <h2 className="text-2xl font-bold text-gray-800 ">Meus Produtos</h2>
         <BsBoxSeam size={24} className="text-gray-800" />

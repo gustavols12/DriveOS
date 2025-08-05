@@ -65,20 +65,31 @@ export function OsForm({ products, customers }: OsProps) {
   // funções
   function handleAddItemInList(e: FormEvent) {
     e.preventDefault();
-    const productName = products.find(
-      (product) => product.id === selectedProduct?.id,
-    );
-    if (!productName) {
-      return;
-    }
-    const item = {
-      name: productName?.name,
-      id: productName?.id,
-      price: productName?.price,
-      un: productName?.un,
-    };
-    setListItems((prev) => [...prev, item]);
+
+    const product = products.find((p) => p.id === selectedProduct?.id);
+    if (!product) return;
+
+    setListItems((prev) => {
+      const exist = prev.find((item) => item.id === product.id);
+      if (exist) {
+        const novaQtd = parseInt(exist.un) + qtde;
+        exist.un = String(novaQtd);
+        exist.price = (parseFloat(product.price) * novaQtd).toFixed(2);
+        return [...prev];
+      }
+
+      return [
+        ...prev,
+        {
+          name: product.name,
+          id: product.id,
+          price: (parseFloat(product.price) * qtde).toFixed(2),
+          un: String(qtde),
+        },
+      ];
+    });
   }
+
   function handleRemoveItem(id: string) {
     const updateList = listItems.filter((item) => item.id !== id);
     setListItems(updateList);
