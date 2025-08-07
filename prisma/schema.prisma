@@ -14,6 +14,7 @@ model Produto{
   name String
   un String
   price String
+  stock Int?
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   sale SaleItem[]

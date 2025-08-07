@@ -4,25 +4,35 @@ import { Input } from '@/components/input';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { error } from 'console';
 
 export function FormProdutos() {
   const [name, setName] = useState('');
   const [un, setUn] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(1);
+  const [stock, setStock] = useState(1);
   const router = useRouter();
 
   async function handleAddProduct(e: FormEvent) {
     e.preventDefault();
 
-    if (name === '' || un === '' || price === '') {
-      toast.error('preencha os dados');
+    if (
+      name === '' ||
+      un === '' ||
+      !price ||
+      !stock ||
+      price < 0 ||
+      stock < 0
+    ) {
+      toast.error('preencha os dados corretamente');
       return;
     }
 
     try {
+      const priceConvertido = price.toString();
       const res = await fetch('/api/produtos', {
         method: 'POST',
-        body: JSON.stringify({ name, un, price }),
+        body: JSON.stringify({ name, un, priceConvertido, stock }),
       });
 
       if (!res.ok) {
@@ -31,7 +41,7 @@ export function FormProdutos() {
       }
       toast.success('cadastro efetuado com sucesso');
       setName('');
-      setPrice('');
+      setPrice(1);
       setUn('');
       router.refresh();
     } catch (error) {
@@ -55,6 +65,7 @@ export function FormProdutos() {
           </label>
           <Input
             id="nome"
+            required
             type="text"
             placeholder="Nome do produto..."
             value={name}
@@ -69,9 +80,27 @@ export function FormProdutos() {
           <Input
             id="UN"
             type="text"
+            required
             placeholder="UN"
             value={un}
             onChange={(e) => setUn(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="stock" className="text-gray-700 font-semibold mb-1">
+            Estoque*
+          </label>
+          <Input
+            id="stock"
+            type="number"
+            placeholder="1"
+            required
+            min={1}
+            max={99}
+            value={stock.toString()}
+            onChange={(e) => {
+              setStock(Number(e.target.value));
+            }}
           />
         </div>
 
@@ -82,9 +111,12 @@ export function FormProdutos() {
           <Input
             id="venda"
             type="number"
-            placeholder="0"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            required
+            min={1}
+            max={99}
+            placeholder="1"
+            value={price.toString()}
+            onChange={(e) => setPrice(Number(e.target.value))}
           />
         </div>
       </div>

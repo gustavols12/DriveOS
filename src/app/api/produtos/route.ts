@@ -9,16 +9,17 @@ export async function POST(req: NextRequest) {
   if (!session || !session.user)
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   try {
-    const { name, price, un } = await req.json();
+    const { name, priceConvertido, un, stock } = await req.json();
 
-    if (!name || !un || !price) {
+    if (!name || !un || !priceConvertido || !stock) {
       return NextResponse.json({ error: 'informe corretamente os dados' });
     }
     const newProduct = await prisma.produto.create({
       data: {
         name: name,
-        price: price,
+        price: priceConvertido,
         un: un,
+        stock: stock,
         userId: session.user.id,
       },
     });
