@@ -180,6 +180,7 @@ export function OsForm({ products, customers }: OsProps) {
           </label>
 
           <Input
+            required
             id="email"
             placeholder="informe o email"
             type="email"
@@ -194,6 +195,7 @@ export function OsForm({ products, customers }: OsProps) {
           </label>
           <Input
             id="phone"
+            required
             placeholder="informe o telefone"
             type="text"
             value={phone || ''}
@@ -202,6 +204,7 @@ export function OsForm({ products, customers }: OsProps) {
         </div>
 
         {/* produto */}
+
         <div className="flex flex-col">
           <label className="text-gray-700 font-semibold mb-1" htmlFor="product">
             Produto*
@@ -226,6 +229,7 @@ export function OsForm({ products, customers }: OsProps) {
             Preço*
           </label>
           <Input
+            required
             id="price"
             placeholder="150,00"
             type="text"
@@ -238,6 +242,7 @@ export function OsForm({ products, customers }: OsProps) {
             Qtde*
           </label>
           <Input
+            required
             id="qtde"
             placeholder="1"
             type="text"
@@ -294,6 +299,8 @@ export function OsForm({ products, customers }: OsProps) {
         <textarea
           name="serviço"
           id="serviço"
+          required
+          rows={4}
           value={service}
           onChange={(e) => setService(e.target.value)}
           placeholder="Descrição do serviço"

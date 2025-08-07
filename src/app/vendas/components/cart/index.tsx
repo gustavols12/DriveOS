@@ -155,6 +155,7 @@ export function Cart({ cartItem, clients }: itemCartProps) {
             Cliente:
           </label>
           <select
+            required
             name="cliente"
             id="cliente"
             onChange={(e) => setClientId(e.target.value)}

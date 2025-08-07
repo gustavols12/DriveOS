@@ -3,6 +3,7 @@ export interface ProductProps {
   id: string;
   un: string;
   price: string;
+  stock: number | null;
   createdAt?: Date | null;
   updatedAt?: Date | null;
   userId?: string | null;

@@ -55,6 +55,7 @@ export function FormClient() {
           </label>
           <Input
             id="name"
+            required
             type="text"
             placeholder="Nome do Cliente..."
             value={name}
@@ -68,6 +69,7 @@ export function FormClient() {
           </label>
           <Input
             id="email"
+            required
             type="email"
             placeholder="seuEmail@teste.com"
             value={email}
@@ -81,6 +83,7 @@ export function FormClient() {
           </label>
           <Input
             id="phone"
+            required
             type="text"
             placeholder="41 9999-9999"
             value={phone}
