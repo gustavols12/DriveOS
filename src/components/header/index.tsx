@@ -151,9 +151,9 @@ export function Header() {
               </div>
               <button onClick={toggleDropdown}>
                 {dropdownOpen ? (
-                  <FaArrowLeft size={18} />
-                ) : (
                   <FaArrowDown size={18} />
+                ) : (
+                  <FaArrowLeft size={18} />
                 )}
               </button>
             </Link>
