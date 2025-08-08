@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { ProductProps } from '@/utils/product.type';
+import { Dashboard } from '@/components/graficoProduto';
 
 export default async function Home() {
   const produtos: ProductProps[] = await prisma.produto.findMany();
@@ -28,7 +29,7 @@ export default async function Home() {
   const totalCaixa = vendasDiarias.reduce((acc, venda) => acc + venda.total, 0);
   return (
     <section className="w-full p-2 lg:p-8 flex flex-col items-center justify-center gap-2 ">
-      <h1 className="text-xl sm:text-3xl font-bold text-[#1e2939]">
+      <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mt-2">
         Dashboard - Caixa Diário
       </h1>
       <section className="w-full grid grid-cols-1 lg:grid-cols-3 items-center justify-center gap-4 my-2 lg:m-4 ">
@@ -80,6 +81,7 @@ export default async function Home() {
           {session ? vendasDiarias.length : 0}
         </p>
       </div>
+      <Dashboard />
     </section>
   );
 }
