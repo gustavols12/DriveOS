@@ -84,7 +84,7 @@ export async function Dashboard() {
 
       <Card className="w-full h-96 mt-2">
         <CardHeader>
-          <CardTitle>Vendas por Faixa do Mês</CardTitle>
+          <CardTitle>Resumo de vendas mensal</CardTitle>
         </CardHeader>
         <CardContent>
           <GraficoVendasPorFaixa data={vendasFormatado} />

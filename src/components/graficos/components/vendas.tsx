@@ -19,7 +19,7 @@ export function GraficoVendasPorFaixa({ data }: { data: FaixaVenda[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Resumo de vendas no mês</CardTitle>
+        <CardTitle>Movimento registrado</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -27,7 +27,7 @@ export function GraficoVendasPorFaixa({ data }: { data: FaixaVenda[] }) {
             <XAxis dataKey="label" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="valor" fill="#4f46e5" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="valor" fill="#1e2939" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
