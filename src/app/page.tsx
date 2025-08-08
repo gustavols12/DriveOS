@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { ProductProps } from '@/utils/product.type';
-import { Dashboard } from '@/components/graficoProduto';
+import { Dashboard } from '@/components/graficos';
 
 export default async function Home() {
   const produtos: ProductProps[] = await prisma.produto.findMany();
@@ -81,7 +81,7 @@ export default async function Home() {
           {session ? vendasDiarias.length : 0}
         </p>
       </div>
-      <Dashboard />
+      {session && <Dashboard />}
     </section>
   );
 }
