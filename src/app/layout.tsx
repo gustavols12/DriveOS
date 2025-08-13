@@ -28,13 +28,13 @@ export default function RootLayout({
     <html lang="en" className={poppins.className}>
       <body>
         <AuthProvider>
-          <Suspense fallback={<Loading />}>
-            <Container>
-              <Header />
-              <Toaster position="top-center" reverseOrder={false} />
+          <Container>
+            <Header />
+            <Toaster position="top-center" reverseOrder={false} />
+            <Suspense fallback={<Loading />}>
               <main className="flex-1 overflow-y-auto"> {children}</main>
-            </Container>
-          </Suspense>
+            </Suspense>
+          </Container>
         </AuthProvider>
       </body>
     </html>
