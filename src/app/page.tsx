@@ -1,31 +1,12 @@
 import { BsCashCoin, BsTags, BsCart3, BsGraphUpArrow } from 'react-icons/bs';
-import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { ProductProps } from '@/utils/product.type';
 import { Dashboard } from '@/components/graficos';
+import { getDailyData } from '@/utils/getDailyData ';
 
 export default async function Home() {
-  const produtos: ProductProps[] = await prisma.produto.findMany();
-  const start = new Date();
-
-  start.setHours(0, 0, 0, 0);
-
-  const end = new Date();
-  end.setHours(23, 59, 59, 999);
-  const dia = new Date();
-  const diaFormatado = new Intl.DateTimeFormat('pt-BR').format(dia);
   const session = await getServerSession(authOptions);
-
-  const vendasDiarias = await prisma.sale.findMany({
-    where: {
-      userId: session?.user.id,
-      createdAt: {
-        gte: start,
-        lte: end,
-      },
-    },
-  });
+  const { produtos, diaFormatado, vendasDiarias } = await getDailyData();
   const totalCaixa = vendasDiarias.reduce((acc, venda) => acc + venda.total, 0);
   return (
     <section className="w-full p-2 lg:p-8 flex flex-col items-center justify-center gap-2 ">
