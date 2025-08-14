@@ -1,6 +1,5 @@
 import { getServerSession } from 'next-auth';
 import { Cart } from './components/cart';
-import { prisma } from '@/lib/prisma';
 import { authOptions } from '@/lib/auth';
 import { GetCustomerData } from '@/utils/getCustomerData';
 import { GetProductData } from '@/utils/getProductData';

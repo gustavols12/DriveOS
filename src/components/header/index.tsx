@@ -11,7 +11,7 @@ import {
   BsFillPersonPlusFill,
 } from 'react-icons/bs';
 import { MdLogin } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { FiLoader } from 'react-icons/fi';
 import { FaArrowDown, FaArrowLeft, FaRegUser } from 'react-icons/fa';
@@ -107,7 +107,10 @@ export function Header() {
             className={`w-full flex items-center justify-self-auto p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
               pathname === '/produtos' ? 'bg-[#155dfc]' : 'hover:bg-gray-700'
             }`}
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false);
+              setDropdownOpen(false);
+            }}
           >
             <BsTags size={24} />
             Produtos
@@ -136,19 +139,22 @@ export function Header() {
           </Link>
 
           <div className="w-full flex flex-col">
-            <Link
-              href="/ordemServico"
-              className={`w-full flex items-center justify-between p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300  ${
-                pathname === '/ordemServico'
-                  ? 'bg-[#155dfc]'
-                  : 'hover:bg-gray-700'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              <div className="flex gap-2 items-center justify-start flex-1">
-                <BsWrenchAdjustable size={24} />
-                serviço
-              </div>
+            <div className="flex items-center justify-between">
+              <Link
+                href="/ordemServico"
+                className={
+                  'w-full flex items-center justify-between p-4 rounded-lg gap-2 hover:bg-gray-700 text-white duration-300 '
+                }
+                onClick={() => {
+                  setIsOpen(false);
+                  toggleDropdown();
+                }}
+              >
+                <div className="flex gap-2 items-center justify-start flex-1">
+                  <BsWrenchAdjustable size={24} />
+                  serviço
+                </div>
+              </Link>
               <button onClick={toggleDropdown}>
                 {dropdownOpen ? (
                   <FaArrowDown size={18} />
@@ -156,7 +162,7 @@ export function Header() {
                   <FaArrowLeft size={18} />
                 )}
               </button>
-            </Link>
+            </div>
             {dropdownOpen && (
               <ul className="pl-10 pt-1 pb-2 text-sm bg-gray-800 rounded-b-lg">
                 <li>
