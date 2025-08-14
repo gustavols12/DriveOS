@@ -12,11 +12,43 @@ export async function POST(req: NextRequest) {
   try {
     const { items, customerId, paymentMethod } = await req.json();
 
+    for (const item of items) {
+      const product = await prisma.produto.findUnique({
+        where: { id: item.productId },
+      });
+
+      if (!product) {
+        return NextResponse.json(
+          { error: `Produto ${item.productId} não encontrado` },
+          { status: 404 },
+        );
+      }
+
+      if (product.stock === null || product.stock < item.quantity) {
+        return NextResponse.json(
+          { error: `Estoque insuficiente para ${product.name}` },
+          { status: 400 },
+        );
+      }
+    }
+
+    // atualiza o estoque
+    for (const item of items) {
+      await prisma.produto.update({
+        where: { id: item.productId },
+        data: {
+          stock: { decrement: item.quantity },
+        },
+      });
+    }
+
+    // Calcula total
     const total = items.reduce(
       (acc: number, item: any) => acc + item.price * item.quantity,
       0,
     );
-    const newSale = await prisma.sale.create({
+
+    await prisma.sale.create({
       data: {
         userId: session.user.id,
         customerId,
@@ -30,9 +62,6 @@ export async function POST(req: NextRequest) {
             subtotal: item.quantity * item.price,
           })),
         },
-      },
-      include: {
-        items: true,
       },
     });
 

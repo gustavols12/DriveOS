@@ -91,22 +91,32 @@ export function CartAddProduct({
       </select>
 
       <div className="flex gap-2">
-        <input
-          type="number"
-          value={qtd}
-          min={1}
-          onChange={(e) => setQtd(Number(e.target.value))}
-          placeholder="Quantidade"
-          className="w-full rounded-lg border p-2"
-        />
-        <input
-          type="number"
-          value={unitPrice}
-          disabled
-          className="w-full rounded-lg border p-2"
-        />
+        <div className="w-full">
+          <label htmlFor="Qtd">Qtde*</label>
+          <input
+            id="Qtd"
+            type="number"
+            value={qtd}
+            min={1}
+            onChange={(e) => setQtd(Number(e.target.value))}
+            placeholder="Quantidade"
+            className="w-full rounded-lg border p-2"
+          />
+        </div>
+        <div className="w-full">
+          <label htmlFor="Preco">Preço Unitário*</label>
+          <input
+            id="Preco"
+            type="number"
+            value={unitPrice}
+            disabled
+            className="w-full rounded-lg border p-2"
+          />
+        </div>
       </div>
+      <label htmlFor="total">Total*</label>
       <input
+        id="total"
         type="number"
         value={total}
         disabled

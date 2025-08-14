@@ -15,6 +15,7 @@ export function ListProducts({ products }: ListProps) {
   const [editName, setEditName] = useState('');
   const [editUn, setEditUn] = useState('');
   const [editPrice, setEditPrice] = useState('');
+  const [editStock, setEditStock] = useState(0);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   function startEdit(product: ProductsPros) {
@@ -37,6 +38,7 @@ export function ListProducts({ products }: ListProps) {
           name: editName,
           un: editUn,
           price: editPrice,
+          stock: editStock,
         }),
       });
       if (!res.ok) {
@@ -64,18 +66,19 @@ export function ListProducts({ products }: ListProps) {
   }
 
   return (
-    <section className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl p-6 mt-10">
+    <section className="w-full max-w-7xl mx-auto max-h-1/12 shadow shadow-gray-300 rounded-xl p-6 mt-10">
       <div className="flex py-2  gap-2 items-center justify-start">
         <h2 className="text-2xl font-bold text-gray-800 ">Meus Produtos</h2>
         <BsBoxSeam size={24} className="text-gray-800" />
       </div>
 
-      <div className=" overflow-x-auto py-4">
-        <table className=" w-full  text-sm  border border-gray-300  mb-4 py-4">
+      <div className="overflow-x-auto overflow-y-auto max-h-[400px] py-4">
+        <table className="w-full text-sm border border-gray-300 mb-4">
           <thead className="bg-gray-100 text-gray-800">
             <tr className="font-semibold">
               <th className="py-4 px-6 border-b text-left">Nome</th>
-              <th className="py-4 px-6 border-b   text-left">Unidade</th>
+              <th className="py-4 px-6 border-b text-left">Unidade</th>
+              <th className="py-4 px-6 border-b text-left">Estoque</th>
               <th className="py-4 px-6 border-b text-left">Valor</th>
               <th className="py-4 px-6 border-b text-center">Ações</th>
             </tr>
@@ -96,6 +99,14 @@ export function ListProducts({ products }: ListProps) {
                       className="w-full p-2 rounded border outline-none"
                       value={editUn}
                       onChange={(e) => setEditUn(e.target.value)}
+                    />
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    <input
+                      type="number"
+                      className="w-full p-2 rounded border outline-none"
+                      value={editStock}
+                      onChange={(e) => setEditStock(Number(e.target.value))}
                     />
                   </td>
                   <td className="py-4 px-6 border-b text-left">
@@ -131,6 +142,9 @@ export function ListProducts({ products }: ListProps) {
                   </td>
                   <td className="py-4 px-6 border-b text-left ">
                     {product.un}
+                  </td>
+                  <td className="py-4 px-6 border-b text-left">
+                    {product.stock ? <>{product.stock}</> : <>0</>}
                   </td>
                   <td className="py-4 px-6 border-b text-left">
                     R$ {Number(product.price).toFixed(2)}

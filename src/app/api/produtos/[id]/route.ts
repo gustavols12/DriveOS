@@ -28,7 +28,7 @@ export async function PUT(
 
   const body = await req.json();
 
-  const { name, un, price } = body;
+  const { name, un, price, stock } = body;
 
   try {
     const updateProduct = await prisma.produto.update({
@@ -39,6 +39,7 @@ export async function PUT(
         name,
         un,
         price,
+        stock,
       },
     });
     return NextResponse.json(updateProduct);

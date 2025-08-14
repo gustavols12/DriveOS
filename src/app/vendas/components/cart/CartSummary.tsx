@@ -57,7 +57,11 @@ export function CartSummary({
         }),
       });
 
-      if (!res.ok) return toast.error('Erro ao finalizar venda');
+      if (!res.ok) {
+        const { error } = await res.json();
+        toast.error(error);
+        return;
+      }
       toast.success('Venda efetuada');
       setCart([]);
       setClientId('');
