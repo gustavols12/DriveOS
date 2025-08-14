@@ -29,9 +29,9 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <Container>
-            <Header />
             <Toaster position="top-center" reverseOrder={false} />
             <Suspense fallback={<Loading />}>
+              <Header />
               <main className="flex-1 overflow-y-auto"> {children}</main>
             </Suspense>
           </Container>

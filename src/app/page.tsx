@@ -3,7 +3,6 @@ import { authOptions } from '@/lib/auth';
 import { Dashboard } from '@/components/graficos';
 import { DalyCash } from '@/components/dalycash';
 import { Suspense } from 'react';
-import Loading from './loading';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -13,12 +12,16 @@ export default async function Home() {
       <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mt-2">
         Dashboard - Caixa Diário
       </h1>
-      <Suspense fallback={<Loading />}>
+      <Suspense
+        fallback={<div className="text-center ">Carregando caixa...</div>}
+      >
         <DalyCash />
       </Suspense>
 
       {session && (
-        <Suspense fallback={<Loading />}>
+        <Suspense
+          fallback={<div className="text-center ">Carregando Dashboard...</div>}
+        >
           <Dashboard />
         </Suspense>
       )}
