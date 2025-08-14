@@ -4,7 +4,7 @@ import { BsBoxSeam } from 'react-icons/bs';
 import { FiTrash2 } from 'react-icons/fi';
 import { ProductsPros } from '../../@types';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface ListProps {

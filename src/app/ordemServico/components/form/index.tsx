@@ -140,9 +140,6 @@ export function OsForm({ products, customers }: OsProps) {
       className="w-full max-w-7xl mx-auto shadow shadow-gray-300 rounded-xl mt-8 p-6"
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
-          + Ordem de Serviço
-        </h2>
         {selectedCustomer && service && listItems && (
           <DownloadOSButton
             customer={selectedCustomer?.name}

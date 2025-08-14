@@ -1,24 +1,17 @@
-import { prisma } from '@/lib/prisma';
-import { OsForm } from './components/form';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { GetProductData } from '@/utils/getProductData';
-import { GetCustomerData } from '@/utils/getCustomerData';
+import { Suspense } from 'react';
+import { ServiceOrder } from './components/serviceOrder';
 
 export default async function Os() {
-  const session = await getServerSession(authOptions);
-  const { products } = await GetProductData();
-  const { customers } = await GetCustomerData();
-
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      {session ? (
-        <OsForm customers={customers} products={products} />
-      ) : (
-        <h1 className="text-3xl text-center font-bold text-gray-800 mt-10">
-          Efetue o login para gerar uma ordem de serviço
-        </h1>
-      )}
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 mt-6">
+        + Ordem de Serviço
+      </h2>
+      <Suspense
+        fallback={<div className="text-center ">Carregando O.S ...</div>}
+      >
+        <ServiceOrder />
+      </Suspense>
     </div>
   );
 }
