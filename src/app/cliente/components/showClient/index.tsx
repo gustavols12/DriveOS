@@ -33,7 +33,7 @@ export function ListClient({ clients }: listClientProps) {
   }
   async function handleEdit(id: string) {
     try {
-      const res = await fetch(`/api/cliente/${id}`, {
+      const res = await fetch(`/api/cliente?id=${id}`, {
         method: 'PUT',
 
         body: JSON.stringify({
@@ -44,7 +44,9 @@ export function ListClient({ clients }: listClientProps) {
       });
 
       if (!res.ok) {
-        throw new Error('erro ao atualizar cliente');
+        const { error } = await res.json();
+        toast.error(error);
+        return;
       }
       toast.success('Cadastro atualizado');
       setEditingId(null);
@@ -56,10 +58,14 @@ export function ListClient({ clients }: listClientProps) {
 
   async function handleDelete(id: string) {
     try {
-      const res = await fetch(`api/cliente/${id}`, {
+      const res = await fetch(`api/cliente?id=${id}`, {
         method: 'DELETE',
       });
-      if (!res.ok) throw new Error('Erro ao deletar');
+      if (!res.ok) {
+        const { error } = await res.json();
+        toast.error(error);
+        return;
+      }
       toast.success('Cliente deletado com sucesso!');
       router.refresh();
     } catch (error) {

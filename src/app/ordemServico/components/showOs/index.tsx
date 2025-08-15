@@ -24,11 +24,12 @@ export function MyOrders({ order, session }: OrderProps) {
   // funções
   async function handleDeleteOs(id: string) {
     try {
-      const response = await fetch(`/api/os/${id}`, {
+      const response = await fetch(`/api/os?id=${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
-        toast.error('Erro ao deletar OS');
+        const { error } = await response.json();
+        toast.error(error);
         return;
       }
       toast.success('O.S deletada com sucesso');

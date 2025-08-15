@@ -4,7 +4,7 @@ import { BsBoxSeam } from 'react-icons/bs';
 import { FiTrash2 } from 'react-icons/fi';
 import { ProductsPros } from '../../@types';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface ListProps {
@@ -32,7 +32,7 @@ export function ListProducts({ products }: ListProps) {
 
   async function handleEdit(id: string) {
     try {
-      const res = await fetch(`/api/produtos/${id}`, {
+      const res = await fetch(`/api/produtos?id=${id}`, {
         method: 'PUT',
         body: JSON.stringify({
           name: editName,
@@ -42,22 +42,28 @@ export function ListProducts({ products }: ListProps) {
         }),
       });
       if (!res.ok) {
-        throw new Error('erro ao atualizar produto');
+        const { error } = await res.json();
+        toast.error(error);
+        return;
       }
-      alert('Produto atualizado com sucesso!');
+      toast.success('Produto atualizado com sucesso!');
       setEditingId(null);
       router.refresh();
     } catch (error) {
-      alert('erro ao atualizar');
+      toast.error('erro ao atualizar');
     }
   }
 
   async function handleDelete(id: string) {
     try {
-      const res = await fetch(`/api/produtos/${id}`, {
+      const res = await fetch(`/api/produtos?id=${id}`, {
         method: 'DELETE',
       });
-      if (!res.ok) throw new Error('Erro ao deletar');
+      if (!res.ok) {
+        const { error } = await res.json();
+        toast.error(error);
+        return;
+      }
       toast.success('Produto deletado com sucesso!');
       router.refresh();
     } catch (error) {

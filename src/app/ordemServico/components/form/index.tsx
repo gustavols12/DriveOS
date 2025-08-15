@@ -100,7 +100,8 @@ export function OsForm({ products, customers }: OsProps) {
         body: JSON.stringify({ listItems, customerId, service }),
       });
       if (!res.ok) {
-        toast.error('Erro ao salvar ordem de serviço');
+        const { error } = await res.json();
+        toast.error(error);
         return;
       }
       toast.success('Ordem de serviço salva');

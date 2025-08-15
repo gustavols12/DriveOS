@@ -90,7 +90,7 @@ export function CartSummary({
             >
               <div>
                 <p>{item.name}</p>
-                <span>R$ {item.price}</span>
+                <span>R$ {item.price} </span>
                 <span>Qtde: {item.un}</span>
               </div>
               <button onClick={() => handleDeleteItem(item.id)}>
