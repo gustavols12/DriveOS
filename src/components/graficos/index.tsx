@@ -1,35 +1,41 @@
-import { prisma } from '@/lib/prisma';
-import { ProdutosMaisVendidos } from './components/top3Produtos';
-import { ProdutoMaisVendido } from './@types';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { GraficoVendasPorFaixa } from './components/vendas';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { prisma } from "@/lib/prisma";
+import { ProdutosMaisVendidos } from "./components/top3Produtos";
+import { ProdutoMaisVendido } from "./@types";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { GraficoVendasPorFaixa } from "./components/vendas";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function Dashboard() {
   const session = await getServerSession(authOptions);
   // query de produtos
   const produtosVendidos = await prisma.saleItem.groupBy({
-    by: ['productId'],
+    by: ["productId"],
+    where: {
+      sale: {
+        userId: session?.user.id,
+      },
+    },
     _sum: {
       quantity: true,
     },
     orderBy: {
       _sum: {
-        quantity: 'desc',
+        quantity: "desc",
       },
     },
     take: 3,
   });
   const produtosIds = produtosVendidos.map((p) => p.productId);
   const produtos = await prisma.produto.findMany({
-    where: { id: { in: produtosIds } },
+    where: { id: { in: produtosIds }, userId: session?.user.id },
   });
+
   const top3: ProdutoMaisVendido[] = produtosVendidos.map((pv) => {
     const prod = produtos.find((p) => p.id === pv.productId);
 
     return {
-      nome: prod?.name || 'Produto desconhecido',
+      nome: prod?.name || "Produto desconhecido",
       quantidade: pv._sum.quantity ?? 0,
     };
   });
@@ -41,6 +47,7 @@ export async function Dashboard() {
 
   const vendas = await prisma.sale.findMany({
     where: {
+      userId: session?.user.id,
       createdAt: {
         gte: primeiroDiaMes,
         lte: ultimoDiaMes,
@@ -52,25 +59,25 @@ export async function Dashboard() {
     },
   });
   const intervaloVendas: Record<string, number> = {
-    'Dia: 1 ao 10': 0,
-    'Dia: 11 ao 20': 0,
-    'Dia: 21 ao 31': 0,
+    "Dia: 1 ao 10": 0,
+    "Dia: 11 ao 20": 0,
+    "Dia: 21 ao 31": 0,
   };
 
   vendas.forEach(({ createdAt, total }) => {
     if (!createdAt) return;
     const dia = new Date(createdAt).getDate();
 
-    if (dia <= 10) intervaloVendas['Dia: 1 ao 10'] += total;
-    else if (dia <= 20) intervaloVendas['Dia: 11 ao 20'] += total;
-    else intervaloVendas['Dia: 21 ao 31'] += total;
+    if (dia <= 10) intervaloVendas["Dia: 1 ao 10"] += total;
+    else if (dia <= 20) intervaloVendas["Dia: 11 ao 20"] += total;
+    else intervaloVendas["Dia: 21 ao 31"] += total;
   });
 
   const vendasFaixaArray = Object.entries(intervaloVendas).map(
     ([faixa, total]) => ({
       faixa,
       total,
-    }),
+    })
   );
 
   const vendasFormatado = vendasFaixaArray.map(({ faixa, total }) => ({
