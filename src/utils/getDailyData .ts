@@ -17,7 +17,11 @@ export async function getDailyData() {
   end.setHours(23, 59, 59, 999);
 
   const dia = new Date();
-  const diaFormatado = new Intl.DateTimeFormat("pt-BR").format(dia);
+
+  const options = {
+    timeZone: "America/Sao_Paulo",
+  };
+  const diaFormatado = new Intl.DateTimeFormat("pt-BR", options).format(dia);
 
   const vendasDiarias = await prisma.sale.findMany({
     where: {
