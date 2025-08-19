@@ -32,10 +32,7 @@ export default function RootLayout({
             <Toaster position="top-center" reverseOrder={false} />
             <Suspense fallback={<Loading />}>
               <Header />
-              <main className="flex-1 overflow-y-auto bg-white">
-                {' '}
-                {children}
-              </main>
+              <main className="flex-1 overflow-y-auto"> {children}</main>
             </Suspense>
           </Container>
         </AuthProvider>
