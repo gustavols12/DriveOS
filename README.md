@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DriveOS 🚗
 
-## Getting Started
+Um sistema inteligente de gestão para oficinas automotivas, desenvolvido para centralizar e simplificar o controle do seu negócio.
 
-First, run the development server:
+## ✨ Sobre o Projeto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+DriveOS é uma aplicação web moderna construída com as tecnologias mais recentes para oferecer uma solução completa e intuitiva para donos de oficinas mecânicas. O sistema permite o gerenciamento de vendas, produtos, clientes e serviços, tudo em um dashboard centralizado que fornece insights rápidos sobre a saúde do negócio.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Este projeto foi inicializado com Next.js e utiliza uma stack robusta para garantir performance, segurança e uma excelente experiência de usuário.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tecnologias Utilizadas
 
-## Learn More
+A arquitetura do DriveOS é baseada nas seguintes ferramentas e tecnologias:
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework:** [Next.js](https://nextjs.org/) (React)
+- **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
+- **Componentes UI:** [shadcn/ui](https://ui.shadcn.com/)
+- **ORM / Banco de Dados:** [Prisma](https://www.prisma.io/) com MongoDB
+- **Autenticação:** [NextAuth.js](https://next-auth.js.org/)
+- **Notificações:** [React Hot Toast](https://react-hot-toast.com/)
+- **Ícones:** [Lucide React](https://lucide.dev/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Começando
 
-## Deploy on Vercel
+Para executar este projeto localmente, siga os passos abaixo.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Pré-requisitos
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Você precisa ter o Node.js (versão 18 ou superior) e um gerenciador de pacotes (NPM, Yarn, ou PNPM) instalados em sua máquina.
+
+### Instalação e Configuração
+
+1.  **Clone o repositório:**
+
+    ```bash
+    git clone https://github.com/seu-usuario/drive-os.git
+    cd drive-os
+    ```
+
+2.  **Instale as dependências:**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Configure as variáveis de ambiente:**
+    Crie um arquivo chamado `.env` na raiz do projeto e adicione as seguintes variáveis. Você precisará preencher com suas próprias credenciais.
+
+    ```env
+    # Banco de Dados (MongoDB)
+    # Cole a sua string de conexão do MongoDB Atlas aqui.
+    DATABASE_URL="mongodb+srv://seu-usuario:sua-senha@cluster.mongodb.net/sua-database"
+
+    # Autenticação com Google (OAuth)
+    # Obtenha estas credenciais no Google Cloud Console ao configurar a tela de consentimento OAuth.
+    GOOGLE_CLIENT_ID="seu-id-de-cliente-do-google-aqui"
+    GOOGLE_CLIENT_SECRET="seu-secret-de-cliente-do-google-aqui"
+
+    # Configuração do NextAuth.js
+    # Use este comando no terminal para gerar uma chave segura: openssl rand -base64 32
+    NEXTAUTH_SECRET="cole-a-chave-segura-gerada-aqui"
+
+    # URL base da sua aplicação para o NextAuth
+    NEXTAUTH_URL="http://localhost:3000"
+    ```
+
+4.  **Sincronize o schema do Prisma com o Banco de Dados:**
+    Como você está usando MongoDB, o comando correto para o Prisma é `db push`.
+
+    ```bash
+    npx prisma db push
+    ```
+
+5.  **Inicie o servidor de desenvolvimento:**
+
+    ```bash
+    npm run dev
+    ```
+
+6.  Abra [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) no seu navegador para ver o resultado\!
+
+---
+
+## 📦 Funcionalidades Principais
+
+- **Dashboard Interativo:** Visualização rápida do resumo do dia, caixa, vendas e produtos.
+- **Gestão de Vendas:** Registre e acompanhe todas as vendas realizadas.
+- **Controle de Produtos:** Cadastre e gerencie o estoque de produtos da oficina.
+- **Cadastro de Clientes:** Mantenha uma base de dados organizada dos seus clientes.
+- **Gerenciamento de Serviços:** Crie e administre as ordens de serviço.
+- **Autenticação Segura:** Sistema de login para proteger os dados do sistema.
+
+---
+
+## 🤝 Como Contribuir
+
+Contribuições são o que tornam a comunidade de código aberto um lugar incrível para aprender, inspirar e criar. Qualquer contribuição que você fizer será **muito apreciada**.
+
+1.  Faça um Fork do projeto
+2.  Crie uma Branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3.  Faça o Commit de suas alterações (`git commit -m 'Add some AmazingFeature'`)
+4.  Faça o Push para a Branch (`git push origin feature/AmazingFeature`)
+5.  Abra um Pull Request
