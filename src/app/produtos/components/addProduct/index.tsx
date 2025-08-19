@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { Input } from '@/components/input';
-import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import { error } from 'console';
+import { Input } from "@/components/input";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { error } from "console";
 
 export function FormProdutos() {
-  const [name, setName] = useState('');
-  const [un, setUn] = useState('');
+  const [name, setName] = useState("");
+  const [un, setUn] = useState("");
   const [price, setPrice] = useState(1);
   const [stock, setStock] = useState(1);
   const router = useRouter();
@@ -17,35 +17,35 @@ export function FormProdutos() {
     e.preventDefault();
 
     if (
-      name === '' ||
-      un === '' ||
+      name === "" ||
+      un === "" ||
       !price ||
       !stock ||
       price < 0 ||
       stock < 0
     ) {
-      toast.error('preencha os dados corretamente');
+      toast.error("preencha os dados corretamente");
       return;
     }
 
     try {
       const priceConvertido = price.toString();
-      const res = await fetch('/api/produtos', {
-        method: 'POST',
+      const res = await fetch("/api/produtos", {
+        method: "POST",
         body: JSON.stringify({ name, un, priceConvertido, stock }),
       });
 
       if (!res.ok) {
-        toast.error('Erro ao efetuar cadastro');
+        toast.error("Erro ao efetuar cadastro");
         return;
       }
-      toast.success('cadastro efetuado com sucesso');
-      setName('');
+      toast.success("cadastro efetuado com sucesso");
+      setName("");
       setPrice(1);
-      setUn('');
+      setUn("");
       router.refresh();
     } catch (error) {
-      toast.error('Erro ao efetuar cadastro');
+      toast.error("Erro ao efetuar cadastro");
     }
   }
   return (
@@ -96,7 +96,7 @@ export function FormProdutos() {
             placeholder="1"
             required
             min={1}
-            max={99}
+            max={1000}
             value={stock.toString()}
             onChange={(e) => {
               setStock(Number(e.target.value));
@@ -113,7 +113,7 @@ export function FormProdutos() {
             type="number"
             required
             min={1}
-            max={99}
+            max={100000}
             placeholder="1"
             value={price.toString()}
             onChange={(e) => setPrice(Number(e.target.value))}
